@@ -867,10 +867,10 @@
 		},
 		"绿色按钮按下时间": {
 			"type": "input",
-			"description": "自定义绿色按钮长按时间",
 			"inputs": [
 				{
 					"name": "green_duration",
+					"description": "自定义绿色按钮长按时间",
 					"label": "绿色按钮按下时间",
 					"pipeline_type": "int",
 					"default": "320"
@@ -890,10 +890,10 @@
 		},
 		"蓝色按钮按下时间": {
 			"type": "input",
-			"description": "自定义蓝色按钮长按时间",
 			"inputs": [
 				{
 					"name": "blue_duration",
+					"description": "自定义蓝色按钮长按时间",
 					"label": "蓝色按钮按下时间",
 					"pipeline_type": "int",
 					"default": "580"
