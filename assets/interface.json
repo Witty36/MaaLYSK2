@@ -761,6 +761,14 @@
 			"type": "select",
 			"cases": [
 				{
+					"name": "拍祁煜",
+					"pipeline_override": {
+						"大头贴_选择祁煜": {
+							"enabled": true
+						}
+					}
+				},
+				{
 					"name": "拍沈星回",
 					"pipeline_override": {
 						"大头贴_选择沈星回": {
@@ -772,14 +780,6 @@
 					"name": "拍黎深",
 					"pipeline_override": {
 						"大头贴_选择黎深": {
-							"enabled": true
-						}
-					}
-				},
-				{
-					"name": "拍祁煜",
-					"pipeline_override": {
-						"大头贴_选择祁煜": {
 							"enabled": true
 						}
 					}
@@ -806,6 +806,14 @@
 			"type": "select",
 			"cases": [
 				{
+					"name": "拍祁煜",
+					"pipeline_override": {
+						"写真_选择祁煜": {
+							"enabled": true
+						}
+					}
+				},
+				{
 					"name": "拍沈星回",
 					"pipeline_override": {
 						"写真_选择沈星回": {
@@ -817,14 +825,6 @@
 					"name": "拍黎深",
 					"pipeline_override": {
 						"写真_选择黎深": {
-							"enabled": true
-						}
-					}
-				},
-				{
-					"name": "拍祁煜",
-					"pipeline_override": {
-						"写真_选择祁煜": {
 							"enabled": true
 						}
 					}
