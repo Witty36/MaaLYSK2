@@ -117,10 +117,10 @@
 			"type": "Click",
 			"param": {}
 		},
-		"max_hit": 1,
 		"focus": {
 			"Node.Action.Succeeded": "开始读未回复朋友圈"
 		},
+		"timeout": 10000,
 		"next": [
 			"[JumpBack]选择朋友圈回复",
 			"[JumpBack]退出获取奖励popop",
@@ -316,6 +316,13 @@
 		"next": ["朋友圈向下滑"]
 	},
 	"朋友圈向下滑": {
+		"recognition": {
+			"type": "TemplateMatch",
+			"param": {
+				"template": ["phone/停止找一找.png"],
+				"roi": [482, 757, 93, 267]
+			}
+		},
 		"action": {
 			"type": "Swipe",
 			"param": {
