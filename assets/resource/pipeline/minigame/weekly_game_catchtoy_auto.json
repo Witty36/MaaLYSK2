@@ -118,7 +118,7 @@
 			"type": "TemplateMatch",
 			"param": {
 				"template": ["minigame/catchtoy/抓娃娃蓝色按钮.png"],
-				"roi": [299, 1128, 58, 48]
+				"roi": [253, 1095, 149, 139]
 			}
 		},
 		"action": {
@@ -215,7 +215,7 @@
 			"type": "TemplateMatch",
 			"param": {
 				"template": ["minigame/catchtoy/抓娃娃蓝色按钮.png"],
-				"roi": [299, 1128, 58, 48]
+				"roi": [253, 1095, 149, 139]
 			}
 		},
 		"action": {
@@ -309,7 +309,7 @@
 			"type": "TemplateMatch",
 			"param": {
 				"template": ["minigame/catchtoy/抓娃娃绿色按钮.png"],
-				"roi": [141, 1132, 51, 42]
+				"roi": [98, 1095, 149, 121]
 			}
 		},
 		"action": {
@@ -328,7 +328,7 @@
 			"type": "TemplateMatch",
 			"param": {
 				"template": ["minigame/catchtoy/抓娃娃蓝色按钮.png"],
-				"roi": [299, 1128, 58, 48]
+				"roi": [253, 1095, 149, 139]
 			}
 		},
 		"action": {
@@ -347,7 +347,7 @@
 			"type": "TemplateMatch",
 			"param": {
 				"template": ["minigame/catchtoy/抓娃娃粉色按钮.png"],
-				"roi": [475, 1127, 71, 51]
+				"roi": [421, 1103, 182, 123]
 			}
 		},
 		"action": {
