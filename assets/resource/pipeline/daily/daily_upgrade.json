@@ -9,11 +9,118 @@
 			"param": {}
 		},
 		"next": [
+			"选择思念升级男主",
 			"点击第一张思念",
 			"[JumpBack]点击思念",
 			"[JumpBack]返回上一级页面",
 			"[JumpBack]导航回主页面"
 		]
+	},
+	"选择思念升级男主": {
+		"recognition": {
+			"type": "OCR",
+			"param": {
+				"expected": ["思念"],
+				"roi": [582, 46, 113, 69]
+			}
+		},
+		"action": {
+			"type": "DoNothing",
+			"param": {}
+		},
+		"enabled": false,
+		"next": [
+			"思念升级选沈星回",
+			"思念升级选黎深",
+			"思念升级选祁煜",
+			"思念升级选秦彻",
+			"思念升级选夏以昼"
+		]
+	},
+	"思念升级选沈星回": {
+		"recognition": {
+			"type": "OCR",
+			"param": {
+				"expected": ["沈星回"],
+				"roi": [245, 126, 116, 50]
+			}
+		},
+		"action": {
+			"type": "Click",
+			"param": {
+				"target_offset": [5, 5, -10, -10]
+			}
+		},
+		"post_delay": 1000,
+		"next": ["点击第一张思念"]
+	},
+	"思念升级选黎深": {
+		"recognition": {
+			"type": "OCR",
+			"param": {
+				"expected": ["黎深"],
+				"roi": [374, 127, 117, 51]
+			}
+		},
+		"action": {
+			"type": "Click",
+			"param": {
+				"target_offset": [5, 5, -10, -10]
+			}
+		},
+		"post_delay": 1000,
+		"next": ["点击第一张思念"]
+	},
+	"思念升级选祁煜": {
+		"recognition": {
+			"type": "OCR",
+			"param": {
+				"expected": ["祁煜"],
+				"roi": [508, 130, 117, 51]
+			}
+		},
+		"action": {
+			"type": "Click",
+			"param": {
+				"target_offset": [5, 5, -10, -10]
+			}
+		},
+		"post_delay": 1000,
+		"next": ["点击第一张思念"]
+	},
+	"思念升级选秦彻": {
+		"recognition": {
+			"type": "OCR",
+			"param": {
+				"expected": ["秦彻"],
+				"roi": [242, 175, 117, 51]
+			}
+		},
+		"action": {
+			"type": "Click",
+			"param": {
+				"target_offset": [5, 5, -10, -10]
+			}
+		},
+		"post_delay": 1000,
+		"next": ["点击第一张思念"]
+	},
+	"思念升级选夏以昼": {
+		"recognition": {
+			"type": "OCR",
+			"param": {
+				"expected": ["夏以昼", "夏以", "以昼"],
+				"roi": [378, 177, 117, 51]
+			}
+		},
+		"action": {
+			"type": "Click",
+			"param": {
+				"target_offset": [5, 5, -10, -10]
+			}
+		},
+		"post_delay": 1000,
+		"next": ["点击第一张思念"]
 	},
 	"点击第一张思念": {
 		"recognition": {
