@@ -140,14 +140,12 @@
 			"type": "TemplateMatch",
 			"param": {
 				"template": ["fight/自动追击1次.png"],
-				"roi": [177, 1167, 54, 38]
+				"roi": [176, 1134, 64, 110]
 			}
 		},
 		"action": {
 			"type": "Click",
-			"param": {
-				"target": [159, 1183, 33, 12]
-			}
+			"param": {}
 		},
 		"next": ["[JumpBack]退出领取点击popop", "stop"]
 	},
@@ -156,14 +154,12 @@
 			"type": "TemplateMatch",
 			"param": {
 				"template": ["fight/自动追击10次.png"],
-				"roi": [328, 1167, 54, 38]
+				"roi": [310, 1135, 65, 109]
 			}
 		},
 		"action": {
 			"type": "Click",
-			"param": {
-				"target": [310, 1183, 33, 12]
-			}
+			"param": {}
 		},
 		"next": ["[JumpBack]退出领取点击popop", "stop"]
 	},
@@ -172,14 +168,12 @@
 			"type": "TemplateMatch",
 			"param": {
 				"template": ["fight/自动追击10次.png"],
-				"roi": [308, 1157, 72, 62]
+				"roi": [310, 1135, 65, 109]
 			}
 		},
 		"action": {
 			"type": "Click",
-			"param": {
-				"target": [296, 1182, 22, 8]
-			}
+			"param": {}
 		},
 		"next": [
 			"体力耗尽不再继续",
@@ -193,14 +187,12 @@
 			"type": "TemplateMatch",
 			"param": {
 				"template": ["fight/自动追击10次.png"],
-				"roi": [308, 1157, 72, 62]
+				"roi": [310, 1135, 65, 109]
 			}
 		},
 		"action": {
 			"type": "Click",
-			"param": {
-				"target": [296, 1182, 22, 8]
-			}
+			"param": {}
 		},
 		"next": []
 	},
