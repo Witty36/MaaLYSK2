@@ -37,7 +37,7 @@
 
 > [!TIP]
 >
-> 访问我们的 [文档](https://maalysk.top/) 以获得更优秀的文档阅读体验。
+> 访问我们的 [文档站](https://maalysk.top/) 以获得更优秀的文档阅读体验。
 
 ## 下载方式
 
@@ -84,4 +84,4 @@
 
 感谢以下开发者对本项目作出的贡献：
 
-[![Contributors](https://contrib.rocks/image?repo=Witty36/MaaLYSK&max=100)](https://github.com/Witty36/MaaLYSK/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=Witty36/MaaLYSK&max=1000)](https://github.com/Witty36/MaaLYSK/graphs/contributors)
