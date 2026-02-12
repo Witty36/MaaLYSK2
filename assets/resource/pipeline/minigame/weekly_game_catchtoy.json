@@ -256,7 +256,12 @@
 			"type": "Click",
 			"param": {}
 		},
-		"next": ["是否娃娃机页面", "[JumpBack]退出点击popop"]
+		"next": [
+			"是否娃娃机页面",
+			"[JumpBack]退出牵绊度提升popop",
+			"[JumpBack]退出获得奖励popop",
+			"[JumpBack]退出各类弹窗"
+		]
 	},
 	"是否娃娃机页面": {
 		"recognition": {

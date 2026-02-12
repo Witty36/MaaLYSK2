@@ -81,6 +81,6 @@
 				"green_mask": true
 			}
 		},
-		"next": []
+		"next": ["stop"]
 	}
 }

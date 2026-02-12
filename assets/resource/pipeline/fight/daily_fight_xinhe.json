@@ -147,7 +147,7 @@
 			"type": "Click",
 			"param": {}
 		},
-		"next": ["[JumpBack]退出领取点击popop", "stop"]
+		"next": ["[JumpBack]退出点击（上限）popop", "stop"]
 	},
 	"芯核自动追击10次": {
 		"recognition": {
@@ -161,7 +161,7 @@
 			"type": "Click",
 			"param": {}
 		},
-		"next": ["[JumpBack]退出领取点击popop", "stop"]
+		"next": ["[JumpBack]退出点击（上限）popop", "stop"]
 	},
 	"芯核自动追击耗尽": {
 		"recognition": {

@@ -76,7 +76,7 @@
 		"next": [
 			"日常签到页面确认",
 			"[JumpBack]日常签到准备",
-			"[JumpBack]退出领取点击popop"
+			"[JumpBack]退出点击（上限）popop"
 		]
 	},
 	"日常签到页面确认": {
@@ -116,7 +116,7 @@
 		"next": [
 			"月礼包点点",
 			"[JumpBack]退出获得奖励popop",
-			"[JumpBack]退出领取点击popop"
+			"[JumpBack]退出点击（上限）popop"
 		]
 	},
 	"月礼包点点": {

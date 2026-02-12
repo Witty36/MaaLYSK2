@@ -114,7 +114,7 @@
 				"target": [19, 936, 12, 13]
 			}
 		},
-		"next": ["是否商城页面", "[JumpBack]退出领取点击popop"]
+		"next": ["是否商城页面", "[JumpBack]退出点击（上限）popop"]
 	},
 	"是否商城页面": {
 		"recognition": {
