@@ -226,7 +226,12 @@
 			"type": "Click",
 			"param": {}
 		},
-		"next": ["是否大头贴页面", "[JumpBack]退出点击popop"],
+		"next": [
+			"是否大头贴页面",
+			"[JumpBack]退出牵绊度提升popop",
+			"[JumpBack]退出获得奖励popop",
+			"[JumpBack]退出点击（上限）popop"
+		],
 		"on_error": ["大头贴确定退出"]
 	},
 	"是否大头贴页面": {
