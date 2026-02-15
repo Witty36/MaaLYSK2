@@ -83,7 +83,7 @@
 			"type": "TemplateMatch",
 			"param": {
 				"template": ["fight/bounty_hunt/黑礼帽.png"],
-				"roi": [317, 444, 363, 447]
+				"roi": [306, 502, 332, 344]
 			}
 		},
 		"action": {
@@ -114,7 +114,7 @@
 			"type": "TemplateMatch",
 			"param": {
 				"template": ["fight/bounty_hunt/莱蒙.png"],
-				"roi": [32, 670, 362, 447]
+				"roi": [44, 703, 284, 378]
 			}
 		},
 		"action": {
@@ -133,7 +133,7 @@
 			"param": {}
 		},
 		"next": [
-			"追踪豆佬准备",
+			"追踪呼呼准备",
 			"[JumpBack]点击零点追踪",
 			"[JumpBack]点击作战",
 			"[JumpBack]返回上一级页面",
@@ -145,7 +145,7 @@
 			"type": "TemplateMatch",
 			"param": {
 				"template": ["fight/bounty_hunt/呼呼.png"],
-				"roi": [336, 808, 363, 447]
+				"roi": [351, 833, 359, 345]
 			}
 		},
 		"action": {
@@ -168,6 +168,7 @@
 				"target": [427, 330, 28, 30]
 			}
 		},
+		"timeout": 10000,
 		"next": ["零点自动追击体力耗尽"]
 	},
 	"零点自动追击1次": {
