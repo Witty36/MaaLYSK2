@@ -58,7 +58,9 @@
 			"param": {}
 		},
 		"post_delay": 1000,
-		"next": ["每周密约领取", "日常密约领取"]
+		"timeout": 6000,
+		"next": ["每周密约领取", "不管了直接点每周"],
+		"on_error": ["日常密约领取", "日常密约领取(满级)"]
 	},
 	"每周密约领取": {
 		"recognition": {
@@ -75,11 +77,36 @@
 		"focus": {
 			"Node.Action.Succeeded": "领取每周密约奖励"
 		},
-		"max_hit": 1,
 		"post_delay": 2000,
-		"timeout": 10000,
+		"timeout": 8000,
 		"next": [
 			"日常密约领取",
+			"日常密约领取(满级)",
+			"[JumpBack]退出牵绊度提升popop",
+			"[JumpBack]退出获得奖励popop",
+			"[JumpBack]退出点击（上限）popop"
+		]
+	},
+	"不管了直接点每周": {
+		"recognition": {
+			"type": "OCR",
+			"param": {
+				"expected": ["密约", "密"],
+				"roi": [468, 91, 194, 108]
+			}
+		},
+		"action": {
+			"type": "Click",
+			"param": {"target": [399, 243, 8, 5]}
+		},
+		"focus": {
+			"Node.Action.Succeeded": "领取每周密约奖励"
+		},
+		"post_delay": 2000,
+		"timeout": 8000,
+		"next": [
+			"日常密约领取",
+			"日常密约领取(满级)",
 			"[JumpBack]退出牵绊度提升popop",
 			"[JumpBack]退出获得奖励popop",
 			"[JumpBack]退出点击（上限）popop"
@@ -97,7 +124,27 @@
 		},
 		"action": {
 			"type": "Click",
-			"param": {}
+			"param": {"target_offset": [-13, 24, -7, -14]}
+		},
+		"focus": {
+			"Node.Action.Succeeded": "领取每周密约奖励"
+		},
+		"max_hit": 1,
+		"next": ["stop"]
+	},
+	"日常密约领取(满级)": {
+		"recognition": {
+			"type": "TemplateMatch",
+			"param": {
+				"template": ["红点（绿码）.png"],
+				"roi": [590, 791, 108, 136],
+				"green_mask": true,
+				"threshold": 0.55
+			}
+		},
+		"action": {
+			"type": "Click",
+			"param": {"target_offset": [-13, 24, -7, -14]}
 		},
 		"focus": {
 			"Node.Action.Succeeded": "领取每周密约奖励"
