@@ -2,23 +2,22 @@
 	"interface_version": 2,
 	"name": "MaaLYSK",
 	"github": "https://github.com/Witty36/MaaLYSK",
-	"custom_title": "MaaLYSK | 恋与深空日常/肝活小助手",
+	"title": "MaaLYSK | 恋与深空日常/肝活小助手",
 	"version": "v0.2.2",
 	"icon": "logo.ico",
+	//"description": "MaaLYSK | 恋与深空日常/肝活小助手",
+	"contact": "QQ群: 1065676561\n\n文档站：https://maalysk.top \n\nGitHub: https://github.com/Witty36/MaaLYSK",
 	"mirrorchyan_rid": "MaaLYSK",
 	"mirrorchyan_multiplatform": true,
 	"controller": [
 		{
 			"name": "ADB模拟器",
-			"type": "Adb"
+			"type": "Adb",
+			"display_short_side": 720
 		},
 		{
-			"name": "桌面端",
-			"type": "Win32",
-			"win32": {
-				"class_regex": ".*",
-				"window_regex": "Visual Studio"
-			}
+			"name": "PlayCover",
+			"type": "PlayCover"
 		}
 	],
 	"resource": [
@@ -62,10 +61,10 @@
 			"default_check": true
 		},
 		{
-			"name": "💫免费思念福利签到",
+			"name": "💫免费福利签到",
 			"entry": "进入福利签到",
 			"default_check": false,
-			"description": "[color:orange]当前签到：十日与你——祁煜·驭夜灯阑[/color]\n\n如果有其它活动,第一天记得把其他活动剧情点掉,不然会卡住"
+			"description": "[color:orange]当前签到：灯宵映礼[/color]\n\n如果有其它活动,第一天记得把其他活动剧情点掉,不然会卡住"
 		},
 		{
 			"name": "💰月卡领取",

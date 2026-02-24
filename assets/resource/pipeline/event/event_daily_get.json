@@ -251,23 +251,5 @@
 		},
 		"focus": "金叶盈福每日领取成功!",
 		"next": []
-	},
-	"精彩活动向下滑": {
-		"recognition": {
-			"type": "OCR",
-			"param": {
-				"expected": ["精彩活动", "精彩", "活动"],
-				"roi": [471, 41, 231, 94]
-			}
-		},
-		"action": {
-			"type": "Swipe",
-			"param": {
-				"begin": [529, 541],
-				"end": [526, 417],
-				"duration": 500
-			}
-		},
-		"max_hit": 3
 	}
 }
