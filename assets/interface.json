@@ -259,27 +259,27 @@
 			"name": "🌟限时活动每日领取",
 			"entry": "进入限时活动",
 			"default_check": false,
-			"option": ["韶华宴岁领取", "吉财临门领取", "金叶盈福领取"],
-			"description": "[color:orange]当前版本：韶华宴岁、吉财临门、金叶盈福[/color]\n\n限时活动领取每日任务奖励，需要提前进入一次页面以防止有动画"
+			//"option": ["韶华宴岁领取", "吉财临门领取", "金叶盈福领取"],
+			"description": "[color:orange]当前版本：步步倾你-祁煜0306生日快乐[/color]\n\n限时活动领取每日任务奖励，需要提前进入一次页面以防止有动画"
 		},
 		{
 			"name": "✨限时活动读剧情",
 			"entry": "进入活动读剧情",
 			"default_check": false,
-			"description": "[color:orange]当前版本：韶华宴岁[/color]\n\n限时活动读剧情，需要提前进入一次页面以防止有动画"
+			"description": "[color:orange]当前版本：目前关闭中[/color]\n\n限时活动读剧情，需要提前进入一次页面以防止有动画"
 		},
 		{
 			"name": "🌈限时活动小游戏",
 			"entry": "进入限时活动小游戏",
 			"default_check": false,
 			"option": ["韶华宴岁小游戏模式"],
-			"description": "[color:orange]当前版本：韶华宴岁[/color]\n\n限时活动小游戏，需要提前进入一次页面以防止有动画"
+			"description": "[color:orange]当前版本：目前关闭中[/color]\n\n限时活动小游戏，需要提前进入一次页面以防止有动画"
 		},
 		{
 			"name": "🛍️限时活动商城领取",
 			"entry": "进入活动商城领取",
 			"default_check": false,
-			"description": "[color:orange]当前版本：韶华宴岁[/color]"
+			"description": "[color:orange]当前版本：目前关闭中[/color]"
 		},
 		{
 			"name": " 🏅喵喵牌限时抽卡",
