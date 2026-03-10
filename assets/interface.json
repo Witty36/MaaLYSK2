@@ -41,7 +41,7 @@
 			"entry": "启动游戏版本",
 			"default_check": true,
 			"option": ["请选择游戏版本", "使用指定账号登录"],
-			"description": "目前官服可以成功启动，其他渠道的可能爱莫能助啦\n\n指定账号登录目前仍在画饼中"
+			"description": "目前官服可以成功启动，其他渠道的需要反馈区服\n\n不支持PlayCover，仅支持ADB模拟器"
 		},
 		{
 			"name": "♻主页面切换账号",
@@ -254,6 +254,13 @@
 			"entry": "进入自动回复朋友圈",
 			"default_check": false,
 			"description": "自动回复朋友圈,选择未回复的进行回复,默认第一个选项,介意请勿使用"
+		},
+		{
+			"name": "🎁使用兑换码",
+			"entry": "进入兑换码兑换",
+			"default_check": false,
+			"description": "不支持PlayCover,Playcover仅能手动输入兑换码",
+			"option": ["输入当前兑换码"]
 		},
 		{
 			"name": "🌟限时活动每日领取",
@@ -1671,6 +1678,23 @@
 			"pipeline_override": {
 				"读夏以昼信息": {
 					"expected": ["{Caleb_nickname}"]
+				}
+			}
+		},
+		"输入当前兑换码": {
+			"type": "input",
+			"inputs": [
+				{
+					"name": "CDKey",
+					"description": "填写要进行兑换的兑换码",
+					"label": "输入兑换码",
+					"pipeline_type": "string",
+					"default": "xxx"
+				}
+			],
+			"pipeline_override": {
+				"输入兑换码": {
+					"input_text": "{CDKey}"
 				}
 			}
 		},
