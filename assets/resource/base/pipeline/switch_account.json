@@ -67,6 +67,7 @@
 		"next": ["[JumpBack]切换账号公告确认", "账号登录切换"]
 	},
 	"切换账号启动": {
+		"enabled": false,
 		"next": [
 			"主页面切换账号",
 			"[JumpBack]sub_关闭公告",
