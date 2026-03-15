@@ -192,10 +192,10 @@ jobs:
           python ./install.py ${{ needs.meta.outputs.tag }} ${{ matrix.os }} ${{ matrix.arch }}
           cd ..
 
-      - name: Replace Icon
-        shell: bash
-        run: |
-          cp logo.ico install/Assets/logo.ico
+      #- name: Replace Icon
+      #  shell: bash
+      #  run: |
+      #    cp logo.ico install/Assets/logo.ico
 
       - uses: actions/upload-artifact@v4
         with:
