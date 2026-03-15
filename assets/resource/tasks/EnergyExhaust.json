@@ -139,28 +139,13 @@
 			],
 			"pipeline_override": {
 				"识别金体力瓶_长按": {
-					"action": {
-						"type": "LongPress",
-						"param": {
-							"duration": "{自定义体力瓶按下时长}"
-						}
-					}
+					"duration": "{自定义体力瓶按下时长}"
 				},
 				"识别深紫体力瓶_长按": {
-					"action": {
-						"type": "LongPress",
-						"param": {
-							"duration": "{自定义体力瓶按下时长}"
-						}
-					}
+					"duration": "{自定义体力瓶按下时长}"
 				},
 				"识别浅紫体力瓶_长按": {
-					"action": {
-						"type": "LongPress",
-						"param": {
-							"duration": "{自定义体力瓶按下时长}"
-						}
-					}
+					"duration": "{自定义体力瓶按下时长}"
 				}
 			}
 		}
