@@ -143,7 +143,7 @@
 		"action": {
 			"type": "Click",
 			"param": {
-				"target_offset": [30, 30, -60, -60]
+				"target_offset": [15, 10, -30, -20]
 			}
 		},
 		"pre_delay": 1000,
