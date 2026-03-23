@@ -142,7 +142,9 @@
 		},
 		"action": {
 			"type": "Click",
-			"param": {}
+			"param": {
+				"target_offset": [3, 5, -6, -10]
+			}
 		},
 		"next": ["返回等待"]
 	},
@@ -159,7 +161,9 @@
 		"pre_delay": 500,
 		"action": {
 			"type": "Click",
-			"param": {}
+			"param": {
+				"target_offset": [3, 5, -6, -10]
+			}
 		},
 		"next": ["返回等待"]
 	},
@@ -176,7 +180,9 @@
 		"pre_delay": 500,
 		"action": {
 			"type": "Click",
-			"param": {}
+			"param": {
+				"target_offset": [3, 5, -6, -10]
+			}
 		},
 		"next": ["返回等待"]
 	},
@@ -193,7 +199,9 @@
 		"pre_delay": 500,
 		"action": {
 			"type": "Click",
-			"param": {}
+			"param": {
+				"target_offset": [3, 5, -6, -10]
+			}
 		},
 		"next": ["返回等待"]
 	},
@@ -209,7 +217,9 @@
 		},
 		"action": {
 			"type": "Click",
-			"param": {}
+			"param": {
+				"target_offset": [3, 5, -6, -10]
+			}
 		},
 		"pre_delay": 500,
 		"next": ["返回等待"]
@@ -227,7 +237,9 @@
 		"pre_delay": 500,
 		"action": {
 			"type": "Click",
-			"param": {}
+			"param": {
+				"target_offset": [3, 5, -6, -10]
+			}
 		},
 		"next": ["返回等待"]
 	},
@@ -244,7 +256,9 @@
 		"pre_delay": 500,
 		"action": {
 			"type": "Click",
-			"param": {}
+			"param": {
+				"target_offset": [3, 5, -6, -10]
+			}
 		},
 		"next": ["返回等待"]
 	},
@@ -261,7 +275,9 @@
 		"pre_delay": 500,
 		"action": {
 			"type": "Click",
-			"param": {}
+			"param": {
+				"target_offset": [3, 5, -6, -10]
+			}
 		},
 		"next": ["返回等待"]
 	},
@@ -278,7 +294,9 @@
 		"pre_delay": 500,
 		"action": {
 			"type": "Click",
-			"param": {}
+			"param": {
+				"target_offset": [3, 5, -6, -10]
+			}
 		},
 		"next": ["返回等待"]
 	},
@@ -295,7 +313,9 @@
 		"pre_delay": 500,
 		"action": {
 			"type": "Click",
-			"param": {}
+			"param": {
+				"target_offset": [3, 5, -6, -10]
+			}
 		},
 		"next": ["返回等待"]
 	},
