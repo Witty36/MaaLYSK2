@@ -323,12 +323,13 @@
 		"action": {
 			"type": "Click",
 			"param": {
-				"target": [112, 1140, 3, 3]
+				"target": [229, 1062, 24, 11]
 			}
 		},
 		"next": [
 			"是否娃娃机页面",
 			"[JumpBack]退出娃娃机结算popop",
+			"[JumpBack]退出快乐出游结算popop",
 			"[JumpBack]退出点击空白继续popop",
 			"[JumpBack]退出新娃娃获得popop",
 			"[JumpBack]退出牵绊度提升popop",

@@ -313,6 +313,8 @@
 			"是否娃娃机页面",
 			"[JumpBack]退出牵绊度提升popop",
 			"[JumpBack]退出获得奖励popop",
+			"[JumpBack]退出娃娃机结算popop",
+			"[JumpBack]退出快乐出游结算popop",
 			"[JumpBack]退出各类弹窗"
 		],
 		"on_error": ["null"]
