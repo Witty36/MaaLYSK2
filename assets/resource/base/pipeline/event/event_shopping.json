@@ -28,13 +28,13 @@
 			"param": {}
 		},
 		"timeout": 6000,
-		"next": ["进入云韶市肆"]
+		"next": ["进入忘尘当铺"]
 	},
-	"进入云韶市肆": {
+	"进入忘尘当铺": {
 		"recognition": {
 			"type": "OCR",
 			"param": {
-				"expected": ["云韶市肆", "云韶", "市肆"],
+				"expected": ["忘尘当铺", "忘尘", "当铺"],
 				"roi": [31, 252, 629, 52]
 			}
 		},
@@ -44,13 +44,13 @@
 		},
 		"max_hit": 1,
 		"post_delay": 1000,
-		"next": ["确认进入云韶市肆"]
+		"next": ["确认进入忘尘当铺"]
 	},
-	"确认进入云韶市肆": {
+	"确认进入忘尘当铺": {
 		"recognition": {
 			"type": "TemplateMatch",
 			"param": {
-				"template": ["shopping/event/邀春新酿.png"],
+				"template": ["shopping/event/幽莲玉钱.png"],
 				"roi": [589, 6, 123, 130]
 			}
 		},
@@ -59,16 +59,16 @@
 			"param": {}
 		},
 		"focus": {
-			"Node.Action.Succeeded": "进入云韶市肆"
+			"Node.Action.Succeeded": "进入忘尘当铺"
 		},
 		"timeout": 5000,
-		"next": ["[JumpBack]云韶市肆_物品购买", "[JumpBack]退出获得奖励popop"]
+		"next": ["[JumpBack]忘尘当铺_物品购买", "[JumpBack]退出获得奖励popop"]
 	},
-	"云韶市肆_物品购买": {
+	"忘尘当铺_物品购买": {
 		"recognition": {
 			"type": "TemplateMatch",
 			"param": {
-				"template": ["shopping/event/物品购买.png"],
+				"template": ["shopping/event/幽莲玉钱物品购买.png"],
 				"roi": [189, 445, 132, 123]
 			}
 		},
@@ -77,7 +77,7 @@
 			"param": {}
 		},
 		"timeout": 8000,
-		"next": ["购买最多", "云韶市肆_领取单个"]
+		"next": ["购买最多", "忘尘当铺_领取单个"]
 	},
 	"购买最多": {
 		"recognition": {
@@ -96,9 +96,9 @@
 				"end_hold": 500
 			}
 		},
-		"next": ["云韶市肆_领取最多"]
+		"next": ["忘尘当铺_领取最多"]
 	},
-	"云韶市肆_领取单个": {
+	"忘尘当铺_领取单个": {
 		"recognition": {
 			"type": "TemplateMatch",
 			"param": {
@@ -118,7 +118,7 @@
 			"[JumpBack]退出点击（上限）popop"
 		]
 	},
-	"云韶市肆_领取最多": {
+	"忘尘当铺_领取最多": {
 		"recognition": {
 			"type": "TemplateMatch",
 			"param": {
