@@ -496,7 +496,7 @@
 							"type": "OCR",
 							"param": {
 								"expected": ["确定"],
-								"roi": [448, 646, 63, 32]
+								"roi": [402, 635, 156, 67]
 							}
 						}
 					},
@@ -533,7 +533,7 @@
 							"type": "OCR",
 							"param": {
 								"expected": ["确定"],
-								"roi": [448, 646, 63, 32]
+								"roi": [402, 635, 156, 67]
 							}
 						}
 					},
@@ -559,6 +559,43 @@
 		},
 		"next": []
 	},
+	"确定返回手账保存popop": {
+		"recognition": {
+			"type": "And",
+			"param": {
+				"all_of": [
+					{
+						"recognition": {
+							"type": "OCR",
+							"param": {
+								"expected": ["确定"],
+								"roi": [402, 635, 156, 67]
+							}
+						}
+					},
+					{
+						"recognition": {
+							"type": "OCR",
+							"param": {
+								"expected": [
+									"本周剩余保存次数",
+									"本周剩余保存",
+									"本周剩余保存次数：([1-9]|[1-4][0-9]|50)/50，确认保存吗？"
+								],
+								"roi": [135, 488, 448, 109]
+							}
+						}
+					}
+				],
+				"box_index": 0
+			}
+		},
+		"action": {
+			"type": "Click",
+			"param": {}
+		},
+		"next": []
+	},
 	"确定返回剧情popop": {
 		"recognition": {
 			"type": "And",
@@ -569,7 +606,7 @@
 							"type": "OCR",
 							"param": {
 								"expected": ["确定"],
-								"roi": [448, 646, 63, 32]
+								"roi": [402, 635, 156, 67]
 							}
 						}
 					},

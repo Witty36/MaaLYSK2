@@ -38,6 +38,7 @@
 			"[JumpBack]取消返回陪我一起popop",
 			"[JumpBack]取消返回快乐出游popop",
 			"[JumpBack]确定返回快乐出游popop",
+			"[JumpBack]确定返回手账保存popop",
 			"[JumpBack]确定返回剧情popop",
 			"[JumpBack]退出点击popop"
 		]
@@ -80,6 +81,7 @@
 			"取消返回陪我一起popop",
 			"取消返回快乐出游popop",
 			"确定返回快乐出游popop",
+			"确定返回手账保存popop",
 			"确定返回剧情popop",
 			"退出点击popop"
 		]
@@ -114,6 +116,7 @@
 			"取消返回快乐出游popop",
 			"确定返回陪我一起popop",
 			"确定返回快乐出游popop",
+			"确定返回手账保存popop",
 			"确定返回剧情popop",
 			"退出点击popop"
 		]
