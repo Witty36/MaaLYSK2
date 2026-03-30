@@ -195,12 +195,6 @@
 			"type": "DoNothing",
 			"param": {}
 		},
-		"focus": {
-			"Node.PipelineNode.Failed": {
-				"content": "[color:red]日常签到已领过或领取失败,请检查[/color]",
-				"display": ["log"]
-			}
-		},
 		"timeout": 2000,
 		"rate_limit": 500,
 		"next": [
