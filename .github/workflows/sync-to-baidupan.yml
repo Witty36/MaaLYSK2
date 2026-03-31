@@ -41,7 +41,6 @@ jobs:
           
           FOLDER_NAME="${VERSION} (${YEAR}-${MONTH}-${DAY})"
           echo "folder_name=$FOLDER_NAME" >> $GITHUB_OUTPUT
-          
           TARGET_PATH="/$FOLDER_NAME"
           echo "target_path=$TARGET_PATH" >> $GITHUB_OUTPUT
           
@@ -53,10 +52,7 @@ jobs:
             grep -E "(macos-aarch64|macos-x86_64|win-aarch64|win-x86_64)" | \
             grep -v "linux" > assets.txt
           
-          ASSET_COUNT=$(cat assets.txt | wc -l)
-          echo "assets_count=$ASSET_COUNT" >> $GITHUB_OUTPUT
-          
-          echo "Filtered assets (${ASSET_COUNT} files):"
+          echo "Filtered assets:"
           cat assets.txt
 
       - name: Upload to BaiduPan
@@ -72,7 +68,7 @@ jobs:
           pip install requests
           
           python3 << 'EOF'
-          import os, sys, requests, json, time, subprocess, hashlib
+          import os, sys, requests, time, subprocess
           
           CLIENT_ID = os.environ.get('CLIENT_ID')
           CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
@@ -114,57 +110,33 @@ jobs:
               result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
               return result.returncode == 0
           
-          def upload_file_precreate(token, file_url, filename):
+          def upload_file(token, file_url, filename):
               full_path = f"{FULL_PATH.rstrip('/')}/{filename}"
               print(f"\n📦 {filename}")
               
               try:
-                  # 下载文件
                   print("  ⬇️  Downloading...")
                   r = requests.get(file_url, timeout=300)
                   r.raise_for_status()
-                  file_content = r.content
-                  file_size = len(file_content)
-                  size_mb = file_size / 1024 / 1024
+                  content = r.content
+                  size_mb = len(content) / 1024 / 1024
                   print(f"  📊 {size_mb:.2f} MB")
                   
-                  # 计算 MD5
-                  md5 = hashlib.md5(file_content).hexdigest()
-                  
-                  # precreate
-                  print("  📝 Precreating...")
-                  params = {
-                      'method': 'precreate',
-                      'access_token': token,
-                      'path': full_path,
-                      'size': file_size,
-                      'isdir': '0',
-                      'autoinit': '1',
-                      'block_list': f'["{md5}"]'
-                  }
-                  resp = requests.post("https://pan.baidu.com/rest/2.0/xpan/file", params=params)
-                  result = resp.json()
-                  
-                  if result.get('errno') != 0:
-                      print(f"  ❌ Precreate failed: {result}")
-                      return False
-                  
-                  upload_id = result.get('uploadid')
-                  print(f"  ✓ Precreated, upload_id: {upload_id[:20]}...")
-                  
-                  # 上传文件内容
                   print("  ⬆️  Uploading...")
+                  url = "https://pan.baidu.com/rest/2.0/xpan/file"
                   params = {
                       'method': 'upload',
                       'access_token': token,
-                      'path': full_path,
-                      'uploadid': upload_id,
-                      'partseq': '0'
+                      'path': full_path
                   }
+                  files = {'file': (filename, content)}
+                  resp = requests.post(url, params=params, files=files, timeout=600)
                   
-                  files = {'file': (filename, file_content)}
-                  resp = requests.post("https://pan.baidu.com/rest/2.0/xpan/file", params=params, files=files, timeout=300)
-                  result = resp.json()
+                  try:
+                      result = resp.json()
+                  except:
+                      print(f"  ❌ Response error: {resp.text[:200]}")
+                      return False
                   
                   if result.get('errno') == 0:
                       print("  ✅ Done")
@@ -173,9 +145,8 @@ jobs:
                       print("  ⚠️  Already exists")
                       return True
                   else:
-                      print(f"  ❌ Upload failed: {result}")
+                      print(f"  ❌ Failed: {result}")
                       return False
-                      
               except Exception as e:
                   print(f"  ❌ Error: {e}")
                   return False
@@ -183,31 +154,29 @@ jobs:
           # 刷新 token
           access_token, new_refresh_token = refresh_token()
           
-          # 自动更新 refresh_token
           if new_refresh_token != OLD_REFRESH_TOKEN and GH_TOKEN:
               if update_github_secret('BAIDU_REFRESH_TOKEN', new_refresh_token):
                   print("✓ Refresh token auto-updated\n")
           
-          # 读取 assets
+          # 读取文件列表
           with open('assets.txt') as f:
               assets = [line.strip().split('|') for line in f if line.strip()]
           
           if not assets:
-              print("No matching assets to upload")
+              print("No assets to upload")
               sys.exit(0)
           
-          print(f"\nFound {len(assets)} file(s) to upload")
+          print(f"Found {len(assets)} file(s)")
           for url, name in assets:
               print(f"  - {name}")
           
           success = 0
           for url, name in assets:
-              if upload_file_precreate(access_token, url, name):
+              if upload_file(access_token, url, name):
                   success += 1
-              time.sleep(1)
+              time.sleep(2)
           
           print(f"\n=== Summary: {success}/{len(assets)} ===")
-          print(f"📁 {FULL_PATH}")
           if success < len(assets):
               sys.exit(1)
           EOF
@@ -216,7 +185,4 @@ jobs:
         if: always()
         run: |
           echo "=== Upload Complete ==="
-          echo "Files uploaded to: /apps/MaaLYSK${{ steps.release.outputs.target_path }}"
-          echo ""
-          echo "Uploaded files:"
-          cat assets.txt
+          echo "Location: /apps/MaaLYSK${{ steps.release.outputs.target_path }}"
