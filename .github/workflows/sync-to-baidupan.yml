@@ -68,7 +68,7 @@ jobs:
           pip install requests
           
           python3 << 'EOF'
-          import os, sys, requests, time, subprocess
+          import os, sys, requests, time, subprocess, hashlib
           
           CLIENT_ID = os.environ.get('CLIENT_ID')
           CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
@@ -95,7 +95,7 @@ jobs:
                   'client_id': CLIENT_ID,
                   'client_secret': CLIENT_SECRET
               }
-              resp = requests.get(url, params=params)
+              resp = requests.get(url, params=params, timeout=30)
               data = resp.json()
               if 'access_token' not in data:
                   print(f"✗ Refresh failed: {data}")
@@ -110,46 +110,97 @@ jobs:
               result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
               return result.returncode == 0
           
-          def upload_file(token, file_url, filename):
+          def upload_with_retry(token, file_url, filename, max_retries=3):
               full_path = f"{FULL_PATH.rstrip('/')}/{filename}"
               print(f"\n📦 {filename}")
               
-              try:
-                  print("  ⬇️  Downloading...")
-                  r = requests.get(file_url, timeout=300)
-                  r.raise_for_status()
-                  content = r.content
-                  size_mb = len(content) / 1024 / 1024
-                  print(f"  📊 {size_mb:.2f} MB")
-                  
-                  print("  ⬆️  Uploading...")
-                  url = "https://pan.baidu.com/rest/2.0/xpan/file"
-                  params = {
-                      'method': 'upload',
-                      'access_token': token,
-                      'path': full_path
-                  }
-                  files = {'file': (filename, content)}
-                  resp = requests.post(url, params=params, files=files, timeout=600)
-                  
+              for attempt in range(max_retries):
                   try:
+                      if attempt > 0:
+                          print(f"  🔄 Retry {attempt + 1}/{max_retries}...")
+                          time.sleep(5)
+                      
+                      # 下载文件
+                      print("  ⬇️  Downloading...")
+                      r = requests.get(file_url, timeout=600)
+                      r.raise_for_status()
+                      content = r.content
+                      size_mb = len(content) / 1024 / 1024
+                      print(f"  📊 {size_mb:.2f} MB")
+                      
+                      # 分片上传（8MB 一片）
+                      chunk_size = 8 * 1024 * 1024  # 8MB
+                      chunks = [content[i:i+chunk_size] for i in range(0, len(content), chunk_size)]
+                      block_list = [hashlib.md5(chunk).hexdigest() for chunk in chunks]
+                      
+                      # precreate
+                      print("  📝 Precreating...")
+                      params = {
+                          'method': 'precreate',
+                          'access_token': token,
+                          'path': full_path,
+                          'size': len(content),
+                          'isdir': '0',
+                          'autoinit': '1',
+                          'block_list': json.dumps(block_list)
+                      }
+                      resp = requests.post("https://pan.baidu.com/rest/2.0/xpan/file", params=params, timeout=60)
                       result = resp.json()
-                  except:
-                      print(f"  ❌ Response error: {resp.text[:200]}")
-                      return False
-                  
-                  if result.get('errno') == 0:
-                      print("  ✅ Done")
-                      return True
-                  elif result.get('errno') == -9:
-                      print("  ⚠️  Already exists")
-                      return True
-                  else:
-                      print(f"  ❌ Failed: {result}")
-                      return False
-              except Exception as e:
-                  print(f"  ❌ Error: {e}")
-                  return False
+                      
+                      if result.get('errno') != 0:
+                          print(f"  ❌ Precreate failed: {result}")
+                          continue
+                      
+                      upload_id = result.get('uploadid')
+                      print(f"  ✓ Upload ID: {upload_id[:30]}...")
+                      
+                      # 上传每个分片
+                      print("  ⬆️  Uploading chunks...")
+                      for i, chunk in enumerate(chunks):
+                          params = {
+                              'method': 'upload',
+                              'access_token': token,
+                              'path': full_path,
+                              'uploadid': upload_id,
+                              'partseq': i,
+                              'type': 'tmpfile'
+                          }
+                          files = {'file': (f"{filename}.part{i}", chunk)}
+                          resp = requests.post("https://pan.baidu.com/rest/2.0/xpan/file", params=params, files=files, timeout=120)
+                          result = resp.json()
+                          if result.get('errno') != 0:
+                              print(f"  ❌ Chunk {i} failed: {result}")
+                              raise Exception(f"Chunk {i} upload failed")
+                      
+                      # 创建文件
+                      print("  📝 Creating file...")
+                      params = {
+                          'method': 'create',
+                          'access_token': token,
+                          'path': full_path,
+                          'size': len(content),
+                          'isdir': '0',
+                          'uploadid': upload_id,
+                          'block_list': json.dumps(block_list)
+                      }
+                      resp = requests.post("https://pan.baidu.com/rest/2.0/xpan/file", params=params, timeout=60)
+                      result = resp.json()
+                      
+                      if result.get('errno') == 0:
+                          print("  ✅ Done")
+                          return True
+                      elif result.get('errno') == -9:
+                          print("  ⚠️  Already exists")
+                          return True
+                      else:
+                          print(f"  ❌ Create failed: {result}")
+                          continue
+                          
+                  except Exception as e:
+                      print(f"  ❌ Error: {e}")
+                      continue
+              
+              return False
           
           # 刷新 token
           access_token, new_refresh_token = refresh_token()
@@ -172,9 +223,9 @@ jobs:
           
           success = 0
           for url, name in assets:
-              if upload_file(access_token, url, name):
+              if upload_with_retry(access_token, url, name):
                   success += 1
-              time.sleep(2)
+              time.sleep(3)
           
           print(f"\n=== Summary: {success}/{len(assets)} ===")
           if success < len(assets):
