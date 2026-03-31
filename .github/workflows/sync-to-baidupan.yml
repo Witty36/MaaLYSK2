@@ -12,9 +12,6 @@ on:
 jobs:
   upload:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      secrets: write
 
     steps:
       - name: Get Release Info and Generate Folder Name
@@ -58,7 +55,7 @@ jobs:
           echo "Published: $PUBLISHED_AT"
           echo "Target folder: $FOLDER_NAME"
           
-          # 只保留需要的平台文件，过滤掉 Linux 和 Source code
+          # 只保留需要的平台文件
           echo "$RELEASE_DATA" | jq -r '.assets[] | "\(.browser_download_url)|\(.name)"' | \
             grep -E "(macos-aarch64|macos-x86_64|win-aarch64|win-x86_64)" | \
             grep -v "linux" > assets.txt
