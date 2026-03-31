@@ -1,0 +1,219 @@
+name: Sync Release to BaiduPan
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (leave empty for latest)"
+        required: false
+  release:
+    types: [published]
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      secrets: write
+
+    steps:
+      - name: Get Release Info and Generate Folder Name
+        id: release
+        run: |
+          # 获取 tag 名称
+          if [ -n "${{ github.event.inputs.tag }}" ]; then
+            TAG="${{ github.event.inputs.tag }}"
+          elif [ -n "${{ github.event.release.tag_name }}" ]; then
+            TAG="${{ github.event.release.tag_name }}"
+          else
+            TAG=$(curl -s "https://api.github.com/repos/Witty36/MaaLYSK/releases/latest" | jq -r '.tag_name')
+          fi
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          
+          # 获取发布日期
+          RELEASE_URL="https://api.github.com/repos/Witty36/MaaLYSK/releases/tags/$TAG"
+          RELEASE_DATA=$(curl -s -H "Accept: application/vnd.github.v3+json" "$RELEASE_URL")
+          
+          PUBLISHED_AT=$(echo "$RELEASE_DATA" | jq -r '.published_at')
+          if [ "$PUBLISHED_AT" = "null" ] || [ -z "$PUBLISHED_AT" ]; then
+            PUBLISHED_AT=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          fi
+          
+          # 格式化日期
+          YEAR=$(echo "$PUBLISHED_AT" | cut -d'-' -f1)
+          MONTH=$(echo "$PUBLISHED_AT" | cut -d'-' -f2 | sed 's/^0//')
+          DAY=$(echo "$PUBLISHED_AT" | cut -d'-' -f3 | cut -d'T' -f1 | sed 's/^0//')
+          
+          # 去掉 tag 开头的 'v'
+          VERSION=$(echo "$TAG" | sed 's/^v//')
+          
+          # 生成文件夹名称
+          FOLDER_NAME="${VERSION} (${YEAR}-${MONTH}-${DAY})"
+          echo "folder_name=$FOLDER_NAME" >> $GITHUB_OUTPUT
+          
+          TARGET_PATH="/$FOLDER_NAME"
+          echo "target_path=$TARGET_PATH" >> $GITHUB_OUTPUT
+          
+          echo "Release: $TAG"
+          echo "Published: $PUBLISHED_AT"
+          echo "Target folder: $FOLDER_NAME"
+          
+          # 只保留需要的平台文件，过滤掉 Linux 和 Source code
+          echo "$RELEASE_DATA" | jq -r '.assets[] | "\(.browser_download_url)|\(.name)"' | \
+            grep -E "(macos-aarch64|macos-x86_64|win-aarch64|win-x86_64)" | \
+            grep -v "linux" > assets.txt
+          
+          ASSET_COUNT=$(cat assets.txt | wc -l)
+          echo "assets_count=$ASSET_COUNT" >> $GITHUB_OUTPUT
+          
+          echo "Filtered assets (${ASSET_COUNT} files):"
+          cat assets.txt
+
+      - name: Upload to BaiduPan
+        env:
+          CLIENT_ID: ${{ secrets.BAIDU_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.BAIDU_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.BAIDU_REFRESH_TOKEN }}
+          TARGET_PATH: ${{ steps.release.outputs.target_path }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          REPO: ${{ github.repository }}
+        run: |
+          pip install requests
+          
+          python3 << 'EOF'
+          import os, sys, requests, json, time, subprocess
+          
+          CLIENT_ID = os.environ.get('CLIENT_ID')
+          CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
+          OLD_REFRESH_TOKEN = os.environ.get('REFRESH_TOKEN')
+          TARGET_PATH = os.environ.get('TARGET_PATH', '/Releases')
+          GH_TOKEN = os.environ.get('GH_TOKEN')
+          REPO = os.environ.get('REPO')
+          
+          if not all([CLIENT_ID, CLIENT_SECRET, OLD_REFRESH_TOKEN]):
+              print("❌ Missing credentials")
+              sys.exit(1)
+          
+          print(f"=== MaaLYSK Sync to BaiduPan ===")
+          print(f"Target: {TARGET_PATH}\n")
+          
+          def refresh_token():
+              url = "https://openapi.baidu.com/oauth/2.0/token"
+              params = {
+                  'grant_type': 'refresh_token',
+                  'refresh_token': OLD_REFRESH_TOKEN,
+                  'client_id': CLIENT_ID,
+                  'client_secret': CLIENT_SECRET
+              }
+              resp = requests.get(url, params=params)
+              data = resp.json()
+              if 'access_token' not in data:
+                  print(f"✗ Refresh failed: {data}")
+                  sys.exit(1)
+              new_refresh = data.get('refresh_token', OLD_REFRESH_TOKEN)
+              return data['access_token'], new_refresh
+          
+          def update_github_secret(name, value):
+              if not GH_TOKEN:
+                  return False
+              cmd = f'echo "{value}" | gh secret set {name} --repo {REPO}'
+              result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+              return result.returncode == 0
+          
+          def create_folder(token, path):
+              url = "https://pan.baidu.com/rest/2.0/xpan/file"
+              params = {
+                  'method': 'create',
+                  'access_token': token,
+                  'path': path,
+                  'isdir': '1'
+              }
+              resp = requests.post(url, params=params)
+              result = resp.json()
+              errno = result.get('errno')
+              if errno == 0:
+                  print(f"✓ Created: {path}")
+                  return True
+              elif errno == -8:
+                  print(f"✓ Exists: {path}")
+                  return True
+              else:
+                  print(f"✗ Create failed: {result}")
+                  return False
+          
+          def upload_file(token, file_url, filename):
+              full_path = f"{TARGET_PATH.rstrip('/')}/{filename}"
+              print(f"\n📦 {filename}")
+              try:
+                  print("  ⬇️  Downloading...")
+                  r = requests.get(file_url, timeout=300)
+                  r.raise_for_status()
+                  size_mb = len(r.content) / 1024 / 1024
+                  print(f"  📊 {size_mb:.2f} MB")
+                  
+                  print("  ⬆️  Uploading to BaiduPan...")
+                  resp = requests.post(
+                      "https://pan.baidu.com/rest/2.0/xpan/file",
+                      params={'method': 'upload', 'access_token': token, 'path': full_path},
+                      files={'file': (filename, r.content)},
+                      timeout=300
+                  )
+                  result = resp.json()
+                  if result.get('errno') == 0:
+                      print("  ✅ Done")
+                      return True
+                  elif result.get('errno') == -9:
+                      print("  ⚠️  Already exists")
+                      return True
+                  else:
+                      print(f"  ❌ Failed: {result}")
+                      return False
+              except Exception as e:
+                  print(f"  ❌ Error: {e}")
+                  return False
+          
+          # 刷新 token
+          access_token, new_refresh_token = refresh_token()
+          
+          # 自动更新 refresh_token
+          if new_refresh_token != OLD_REFRESH_TOKEN and GH_TOKEN:
+              if update_github_secret('BAIDU_REFRESH_TOKEN', new_refresh_token):
+                  print("✓ Refresh token auto-updated\n")
+          
+          # 创建文件夹
+          if not create_folder(access_token, TARGET_PATH):
+              sys.exit(1)
+          
+          # 读取 assets
+          with open('assets.txt') as f:
+              assets = [line.strip().split('|') for line in f if line.strip()]
+          
+          if not assets:
+              print("No matching assets to upload")
+              print("Expected: macos-aarch64, macos-x86_64, win-aarch64, win-x86_64")
+              sys.exit(0)
+          
+          print(f"\nFound {len(assets)} file(s) to upload")
+          for url, name in assets:
+              print(f"  - {name}")
+          
+          success = 0
+          for url, name in assets:
+              if upload_file(access_token, url, name):
+                  success += 1
+              time.sleep(1)
+          
+          print(f"\n=== Summary: {success}/{len(assets)} ===")
+          print(f"📁 {TARGET_PATH}")
+          if success < len(assets):
+              sys.exit(1)
+          EOF
+
+      - name: Output Result
+        if: always()
+        run: |
+          echo "=== Upload Complete ==="
+          echo "Files uploaded to: ${{ steps.release.outputs.target_path }}"
+          echo ""
+          echo "Uploaded files:"
+          cat assets.txt
