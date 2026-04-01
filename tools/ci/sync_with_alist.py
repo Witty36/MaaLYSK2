@@ -229,8 +229,13 @@ def extract_version(filename):
 
 
 def safe_folder_name(name: str) -> str:
-    """将文件夹名限定为字母数字、下划线、点和短横线，避免特殊字符导致创建失败。"""
-    return re.sub(r"[^\w.\-]", "_", name)
+    """将文件夹名中的空格替换为空格（保持原样），只移除不安全字符"""
+    # 允许的字符：字母、数字、空格、点、短横线、括号
+    # 将其他特殊字符替换为空格
+    cleaned = re.sub(r'[^\w\s.\-\(\)]', ' ', name)
+    # 移除多余空格
+    cleaned = re.sub(r'\s+', ' ', cleaned).strip()
+    return cleaned
 
 
 def get_latest_release_tag():
