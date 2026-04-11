@@ -110,6 +110,9 @@
 		"action": {
 			"type": "Click"
 		},
+		"focus": {
+			"Node.Action.Succeeded": "进入睡觉陪伴"
+		},
 		"next": [
 			"陪我睡觉时长选好确认",
 			"[JumpBack]选择陪我睡觉时长",
@@ -181,6 +184,9 @@
 		"action": {
 			"type": "Click",
 			"param": {}
+		},
+		"focus": {
+			"Node.Action.Succeeded": "睡觉陪伴结束"
 		},
 		"next": ["睡觉悄悄离开"]
 	},

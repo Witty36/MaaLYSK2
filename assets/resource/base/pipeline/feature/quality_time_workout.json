@@ -110,6 +110,9 @@
 		"action": {
 			"type": "Click"
 		},
+		"focus": {
+			"Node.Action.Succeeded": "进入运动陪伴"
+		},
 		"next": [
 			"陪我运动时长选好确认",
 			"[JumpBack]选择陪我运动时长",
@@ -202,6 +205,9 @@
 					["b", "8"]
 				]
 			}
+		},
+		"focus": {
+			"Node.Action.Succeeded": "开始陪我一起倒计时"
 		},
 		"next": ["[Anchor]陪我结束选择", "[JumpBack]陪我一起等一等完成"]
 	},
@@ -322,6 +328,9 @@
 			}
 		},
 		"inverse": true,
+		"focus": {
+			"Node.Action.Succeeded": "运动陪伴结束"
+		},
 		"next": ["回到陪我一起页面", "[JumpBack]退出各类弹窗"]
 	},
 	"回到陪我一起页面": {
@@ -332,6 +341,9 @@
 				"roi": [514, 1118, 151, 144],
 				"green_mask": true
 			}
+		},
+		"focus": {
+			"Node.Action.Succeeded": "回到陪我一起页面"
 		}
 	}
 }

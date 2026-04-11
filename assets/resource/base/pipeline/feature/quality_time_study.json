@@ -110,6 +110,9 @@
 		"action": {
 			"type": "Click"
 		},
+		"focus": {
+			"Node.Action.Succeeded": "进入学习陪伴"
+		},
 		"next": [
 			"陪我学习时长选好确认",
 			"[JumpBack]选择陪我学习时长",
@@ -180,6 +183,9 @@
 		"action": {
 			"type": "Click",
 			"param": {}
+		},
+		"focus": {
+			"Node.Action.Succeeded": "学习陪伴结束"
 		},
 		"next": ["回到陪我一起页面", "[JumpBack]退出各类弹窗"]
 	}
