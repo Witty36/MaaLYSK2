@@ -712,6 +712,38 @@
 		},
 		"next": ["返回等待"]
 	},
+	"取消返回时间设定popop": {
+		"recognition": {
+			"type": "And",
+			"param": {
+				"all_of": [
+					{
+						"recognition": {
+							"type": "OCR",
+							"param": {
+								"expected": ["取消"],
+								"roi": [187, 663, 140, 71]
+							}
+						}
+					},
+					{
+						"recognition": {
+							"type": "OCR",
+							"param": {
+								"expected": ["时间"],
+								"roi": [66, 407, 228, 100]
+							}
+						}
+					}
+				],
+				"box_index": 0
+			}
+		},
+		"action": {
+			"type": "Click",
+			"param": {}
+		}
+	},
 	"取消返回快乐出游popop": {
 		"recognition": {
 			"type": "And",

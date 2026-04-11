@@ -36,6 +36,7 @@
 			"[JumpBack]断线重连popop",
 			"[JumpBack]账号在别处登录popop",
 			"[JumpBack]取消返回陪我一起popop",
+			"[JumpBack]取消返回时间设定popop",
 			"[JumpBack]取消返回快乐出游popop",
 			"[JumpBack]确定返回快乐出游popop",
 			"[JumpBack]确定返回手账保存popop",
@@ -79,6 +80,7 @@
 			"断线重连popop",
 			"账号在别处登录popop",
 			"取消返回陪我一起popop",
+			"取消返回时间设定popop",
 			"取消返回快乐出游popop",
 			"确定返回快乐出游popop",
 			"确定返回手账保存popop",
@@ -114,6 +116,7 @@
 			"账号在别处登录popop",
 			"取消返回陪我一起popop",
 			"取消返回快乐出游popop",
+			"取消返回时间设定popop",
 			"确定返回陪我一起popop",
 			"确定返回快乐出游popop",
 			"确定返回手账保存popop",
@@ -133,6 +136,7 @@
 			"取消返回陪我一起popop",
 			"取消返回快乐出游popop",
 			"确定返回陪我一起popop",
+			"取消返回时间设定popop",
 			"确定返回快乐出游popop",
 			"退出点击popop"
 		]
