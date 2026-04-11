@@ -92,7 +92,7 @@
 		"recognition": {
 			"type": "TemplateMatch",
 			"param": {
-				"template": ["task/daily/月礼包领取.png"],
+				"template": ["task/礼包领取.png"],
 				"roi": [565, 249, 76, 79]
 			}
 		},
@@ -267,7 +267,7 @@
 		"recognition": {
 			"type": "TemplateMatch",
 			"param": {
-				"template": ["task/daily/月礼包领取.png"],
+				"template": ["task/礼包领取.png"],
 				"roi": [135, 144, 451, 101]
 			}
 		},
