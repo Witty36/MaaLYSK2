@@ -398,19 +398,19 @@
 		},
 		"next": []
 	},
-	"退出我醒了popop": {
+	"退出睡觉陪伴popop": {
 		"recognition": {
 			"type": "OCR",
 			"param": {
-				"expected": ["我醒了"],
-				"roi": [240, 829, 244, 187]
+				"expected": ["我醒了", "悄悄离开"],
+				"roi": [100, 829, 381, 279]
 			}
 		},
 		"action": {
 			"type": "Click",
 			"param": {}
 		},
-		"next": []
+		"next": ["返回等待"]
 	},
 	"退出手账编辑popop": {
 		"recognition": {
@@ -755,7 +755,8 @@
 		"action": {
 			"type": "Click",
 			"param": {}
-		}
+		},
+		"next": ["返回等待"]
 	},
 	"取消返回快乐出游popop": {
 		"recognition": {
