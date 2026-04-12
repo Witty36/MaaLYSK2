@@ -108,6 +108,7 @@ def install_resource():
         interface = jsonc.load(f)
 
     interface["version"] = version
+    interface["title"] = f"MaaLYSK | 恋与深空日常/肝活小助手 {version}"
 
     with open(install_path / "interface.json", "w", encoding="utf-8") as f:
         jsonc.dump(interface, f, ensure_ascii=False, indent=4)
