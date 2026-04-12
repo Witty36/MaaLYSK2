@@ -69,7 +69,8 @@
 			"[JumpBack]点击输入信息",
 			"[JumpBack]退出获得奖励popop",
 			"[JumpBack]退出牵绊度提升popop"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"读沈星回信息": {
 		"recognition": {
@@ -96,7 +97,8 @@
 			"[JumpBack]点击输入信息",
 			"[JumpBack]退出获得奖励popop",
 			"[JumpBack]退出牵绊度提升popop"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"读黎深信息": {
 		"recognition": {
@@ -123,7 +125,8 @@
 			"[JumpBack]点击输入信息",
 			"[JumpBack]退出获得奖励popop",
 			"[JumpBack]退出牵绊度提升popop"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"读秦彻信息": {
 		"recognition": {
@@ -150,7 +153,8 @@
 			"[JumpBack]点击输入信息",
 			"[JumpBack]退出获得奖励popop",
 			"[JumpBack]退出牵绊度提升popop"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"读夏以昼信息": {
 		"recognition": {
@@ -177,7 +181,8 @@
 			"[JumpBack]点击输入信息",
 			"[JumpBack]退出获得奖励popop",
 			"[JumpBack]退出牵绊度提升popop"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"选择第一条短信": {
 		"recognition": {

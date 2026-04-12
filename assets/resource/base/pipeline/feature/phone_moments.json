@@ -158,7 +158,8 @@
 			"[JumpBack]朋友圈找一找",
 			"[JumpBack]退出获得奖励popop",
 			"[JumpBack]退出牵绊度提升popop"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"读沈星回朋友圈": {
 		"recognition": {
@@ -183,7 +184,8 @@
 			"[JumpBack]朋友圈找一找",
 			"[JumpBack]退出获得奖励popop",
 			"[JumpBack]退出牵绊度提升popop"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"读黎深朋友圈": {
 		"recognition": {
@@ -208,7 +210,8 @@
 			"[JumpBack]朋友圈找一找",
 			"[JumpBack]退出获得奖励popop",
 			"[JumpBack]退出牵绊度提升popop"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"读秦彻朋友圈": {
 		"recognition": {
@@ -233,7 +236,8 @@
 			"[JumpBack]退出获得奖励popop",
 			"[JumpBack]退出牵绊度提升popop",
 			"[JumpBack]朋友圈向下滑"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"读夏以昼朋友圈": {
 		"recognition": {
@@ -258,7 +262,8 @@
 			"[JumpBack]朋友圈找一找",
 			"[JumpBack]退出获得奖励popop",
 			"[JumpBack]退出牵绊度提升popop"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"选择朋友圈回复": {
 		"recognition": {

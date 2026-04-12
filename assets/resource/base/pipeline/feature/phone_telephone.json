@@ -93,7 +93,8 @@
 			"[JumpBack]电话自动接听_TM",
 			"[JumpBack]退出获得奖励popop",
 			"[JumpBack]退出牵绊度提升popop"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"读沈星回电话": {
 		"recognition": {
@@ -119,7 +120,8 @@
 			"[JumpBack]电话自动接听_TM",
 			"[JumpBack]退出获得奖励popop",
 			"[JumpBack]退出牵绊度提升popop"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"读黎深电话": {
 		"recognition": {
@@ -145,7 +147,8 @@
 			"[JumpBack]电话自动接听_TM",
 			"[JumpBack]退出获得奖励popop",
 			"[JumpBack]退出牵绊度提升popop"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"读秦彻电话": {
 		"recognition": {
@@ -171,7 +174,8 @@
 			"[JumpBack]电话自动接听_TM",
 			"[JumpBack]退出获得奖励popop",
 			"[JumpBack]退出牵绊度提升popop"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"读夏以昼电话": {
 		"recognition": {
@@ -197,7 +201,8 @@
 			"[JumpBack]电话自动接听_TM",
 			"[JumpBack]退出获得奖励popop",
 			"[JumpBack]退出牵绊度提升popop"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"选择第一条电话": {
 		"recognition": {
