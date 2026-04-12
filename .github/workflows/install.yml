@@ -291,8 +291,6 @@ jobs:
           prerelease: ${{ needs.meta.outputs.is_prerelease == 'true' }}
 
       - name: Trigger MirrorChyanUploading
-        if: false
-        # if: ${{ github.repository_owner == 'MaaXYZ' }}
         shell: bash
         run: |
           gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release.yml -f tag=${{ needs.meta.outputs.tag }}
