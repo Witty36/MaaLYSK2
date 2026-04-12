@@ -195,6 +195,12 @@
 			"type": "DoNothing",
 			"param": {}
 		},
+		"focus": {
+			"Node.PipelineNode.Failed": {
+				"content": "已领取日常收尾奖励，请检查是否有未完成任务",
+				"display": ["log", "notification"]
+			}
+		},
 		"timeout": 2000,
 		"rate_limit": 500,
 		"next": [
