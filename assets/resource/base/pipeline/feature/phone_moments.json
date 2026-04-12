@@ -133,7 +133,8 @@
 			"[JumpBack]退出获得奖励popop",
 			"[JumpBack]退出牵绊度提升popop",
 			"[JumpBack]朋友圈向下滑"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"读祁煜朋友圈": {
 		"recognition": {
@@ -281,7 +282,8 @@
 		"pre_delay": 500,
 		"post_delay": 500,
 		"timeout": 5000,
-		"next": ["选择第一条朋友圈", "发送朋友圈"]
+		"next": ["选择第一条朋友圈", "发送朋友圈"],
+		"on_error": ["null"]
 	},
 	"选择第一条朋友圈": {
 		"recognition": {
@@ -298,7 +300,8 @@
 		"pre_delay": 500,
 		"post_delay": 1000,
 		"timeout": 5000,
-		"next": ["发送朋友圈"]
+		"next": ["发送朋友圈"],
+		"on_error": ["null"]
 	},
 	"发送朋友圈": {
 		"recognition": {
@@ -325,7 +328,8 @@
 			}
 		},
 		"inverse": true,
-		"next": ["朋友圈向下滑"]
+		"next": ["朋友圈向下滑"],
+		"on_error": ["null"]
 	},
 	"朋友圈向下滑": {
 		"recognition": {

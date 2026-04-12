@@ -245,7 +245,8 @@
 		},
 		"post_wait_freezes": 500,
 		"timeout": 5000,
-		"next": ["已在信息页面"]
+		"next": ["已在信息页面"],
+		"on_error": ["null"]
 	},
 	"已在信息页面": {
 		"recognition": {

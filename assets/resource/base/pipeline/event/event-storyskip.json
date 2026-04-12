@@ -73,7 +73,8 @@
 		"max_hit": 1,
 		"timeout": 10000,
 		"focus": "沈星回活动剧情",
-		"next": ["选择剧情菜单", "[JumpBack]自动过剧情"]
+		"next": ["选择剧情菜单", "[JumpBack]自动过剧情"],
+		"on_error": ["null"]
 	},
 	"活动剧情_选择黎深": {
 		"recognition": {
@@ -93,7 +94,8 @@
 		"max_hit": 1,
 		"timeout": 10000,
 		"focus": "黎深活动剧情",
-		"next": ["选择剧情菜单", "[JumpBack]自动过剧情"]
+		"next": ["选择剧情菜单", "[JumpBack]自动过剧情"],
+		"on_error": ["null"]
 	},
 	"活动剧情_选择祁煜": {
 		"recognition": {
@@ -113,7 +115,8 @@
 		"max_hit": 1,
 		"timeout": 10000,
 		"focus": "祁煜活动剧情",
-		"next": ["选择剧情菜单", "[JumpBack]自动过剧情"]
+		"next": ["选择剧情菜单", "[JumpBack]自动过剧情"],
+		"on_error": ["null"]
 	},
 	"活动剧情_选择秦彻": {
 		"recognition": {
@@ -133,7 +136,8 @@
 		"max_hit": 1,
 		"timeout": 10000,
 		"focus": "秦彻活动剧情",
-		"next": ["选择剧情菜单", "[JumpBack]自动过剧情"]
+		"next": ["选择剧情菜单", "[JumpBack]自动过剧情"],
+		"on_error": ["null"]
 	},
 	"活动剧情_选择夏以昼": {
 		"recognition": {
@@ -153,7 +157,8 @@
 		"max_hit": 1,
 		"timeout": 10000,
 		"focus": "夏以昼活动剧情",
-		"next": ["选择剧情菜单", "[JumpBack]自动过剧情"]
+		"next": ["选择剧情菜单", "[JumpBack]自动过剧情"],
+		"on_error": ["null"]
 	},
 	"选择剧情菜单": {
 		"recognition": {
@@ -168,7 +173,8 @@
 			"param": {}
 		},
 		"timeout": 10000,
-		"next": ["有剩余剧情体力", "没有剩余剧情体力"]
+		"next": ["有剩余剧情体力", "没有剩余剧情体力"],
+		"on_error": ["null"]
 	},
 	"有剩余剧情体力": {
 		"recognition": {
@@ -186,7 +192,8 @@
 			"[JumpBack]找找未读剧情3",
 			"[JumpBack]找找未读剧情4",
 			"[JumpBack]找找未读剧情5"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"没有剩余剧情体力": {
 		"recognition": {

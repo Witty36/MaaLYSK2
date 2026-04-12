@@ -203,7 +203,8 @@
 			"type": "DoNothing",
 			"param": {}
 		},
-		"next": ["喵喵牌返回"]
+		"next": ["喵喵牌返回"],
+		"on_error": ["null"]
 	},
 	"喵喵牌返回": {
 		"recognition": {
@@ -219,7 +220,8 @@
 				"target": [26, 63, 8, 9]
 			}
 		},
-		"next": ["喵喵牌确定退出"]
+		"next": ["喵喵牌确定退出"],
+		"on_error": ["null"]
 	},
 	"喵喵牌确定退出": {
 		"recognition": {
@@ -240,7 +242,8 @@
 			"[JumpBack]退出喵喵牌结算popop",
 			"[JumpBack]退出快乐出游结算popop",
 			"[JumpBack]退出各类弹窗"
-		]
+		],
+		"on_error": ["null"]
 	},
 	"是否喵喵牌页面": {
 		"recognition": {
