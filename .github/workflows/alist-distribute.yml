@@ -3,25 +3,116 @@ name: Alist Distribution
 on:
   workflow_dispatch:
     inputs:
-      tag:
-        description: "The release tag to distribute"
+      release_type:
+        description: "Release type"
         required: true
+        type: choice
+        default: "latest"
+        options:
+          - "latest"
+          - "stable"
+          - "beta"
+          - "alpha"
+          - "custom"
 
 jobs:
+  # 先获取版本信息并显示
+  get-versions:
+    runs-on: ubuntu-latest
+    outputs:
+      latest_version: ${{ steps.get-versions.outputs.latest_version }}
+      stable_version: ${{ steps.get-versions.outputs.stable_version }}
+      beta_version: ${{ steps.get-versions.outputs.beta_version }}
+      alpha_version: ${{ steps.get-versions.outputs.alpha_version }}
+      selected_version: ${{ steps.resolve-tag.outputs.selected_version }}
+    steps:
+      - name: Get all release versions
+        id: get-versions
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # 获取所有 releases（包括 pre-release）
+          RELEASES=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/releases?per_page=100")
+
+          # 获取最新的稳定版（非 pre-release）
+          STABLE_VERSION=$(echo "$RELEASES" | jq -r '.[] | select(.prerelease == false) | .tag_name' | head -n 1)
+
+          # 获取最新的 beta 版本
+          BETA_VERSION=$(echo "$RELEASES" | jq -r '.[] | select(.prerelease == true) | select(.tag_name | contains("beta")) | .tag_name' | head -n 1)
+
+          # 获取最新的 alpha 版本
+          ALPHA_VERSION=$(echo "$RELEASES" | jq -r '.[] | select(.prerelease == true) | select(.tag_name | contains("alpha")) | .tag_name' | head -n 1)
+
+          # 获取最新的版本（不管稳定还是预发布）
+          LATEST_VERSION=$(echo "$RELEASES" | jq -r '.[0].tag_name')
+
+          echo "stable_version=$STABLE_VERSION" >> $GITHUB_OUTPUT
+          echo "beta_version=$BETA_VERSION" >> $GITHUB_OUTPUT
+          echo "alpha_version=$ALPHA_VERSION" >> $GITHUB_OUTPUT
+          echo "latest_version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+
+          echo "📊 Current versions:"
+          echo "  Latest (all): $LATEST_VERSION"
+          echo "  Stable: $STABLE_VERSION"
+          echo "  Beta: $BETA_VERSION"
+          echo "  Alpha: $ALPHA_VERSION"
+
+      - name: Resolve selected tag
+        id: resolve-tag
+        run: |
+          RELEASE_TYPE="${{ github.event.inputs.release_type }}"
+          CUSTOM_TAG="${{ github.event.inputs.custom_tag }}"
+
+          case "$RELEASE_TYPE" in
+            "latest")
+              SELECTED="${{ steps.get-versions.outputs.latest_version }}"
+              echo "Selected latest version (all releases)"
+              ;;
+            "stable")
+              SELECTED="${{ steps.get-versions.outputs.stable_version }}"
+              echo "Selected stable version"
+              ;;
+            "beta")
+              SELECTED="${{ steps.get-versions.outputs.beta_version }}"
+              echo "Selected beta version"
+              ;;
+            "alpha")
+              SELECTED="${{ steps.get-versions.outputs.alpha_version }}"
+              echo "Selected alpha version"
+              ;;
+          esac
+
+          echo "selected_version=$SELECTED" >> $GITHUB_OUTPUT
+          echo "✅ Will distribute version: $SELECTED"
+
   distribute:
     runs-on: ubuntu-latest
+    needs: get-versions
+    if: needs.get-versions.outputs.selected_version != '' && needs.get-versions.outputs.selected_version != 'null'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Show distribution info
+        run: |
+          echo "📦 Distributing version: ${{ needs.get-versions.outputs.selected_version }}"
+          echo "📋 Release type: ${{ github.event.inputs.release_type }}"
+          echo ""
+          echo "Version info:"
+          echo "  Latest (all): ${{ needs.get-versions.outputs.latest_version }}"
+          echo "  Stable: ${{ needs.get-versions.outputs.stable_version }}"
+          echo "  Beta: ${{ needs.get-versions.outputs.beta_version }}"
+          echo "  Alpha: ${{ needs.get-versions.outputs.alpha_version }}"
 
       - name: Distribute to Cloud Drives via Alist
         env:
           ALIST_URL: ${{ secrets.ALIST_URL }}
           ALIST_USERNAME: ${{ secrets.ALIST_USERNAME }}
           ALIST_PASSWORD: ${{ secrets.ALIST_PASSWORD }}
-          DISTRIBUTE_TAG: ${{ github.event.inputs.tag }} # 从触发器输入获取标签（使用专用变量以避免与 runner 的 GITHUB_REF_NAME 冲突）
+          DISTRIBUTE_TAG: ${{ needs.get-versions.outputs.selected_version }}
         run: |
           echo "Installing dependencies..."
           pip install requests
-          echo "Running Alist internal distribution script for tag: ${{ github.event.inputs.tag }}"
+          echo "Running Alist internal distribution script for tag: $DISTRIBUTE_TAG"
           python tools/ci/sync_with_alist.py
