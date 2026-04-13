@@ -1,116 +1,108 @@
 name: Alist Distribution
 
 on:
+  # 手动触发：支持输入 tag
   workflow_dispatch:
     inputs:
-      release_type:
-        description: "Release type"
-        required: true
-        type: choice
-        default: "latest"
-        options:
-          - "latest"
-          - "stable"
-          - "beta"
-          - "alpha"
-          - "custom"
+      tag:
+        description: "版本标签（留空则自动获取最新版）"
+        required: false
+        default: ""
+        type: string
+  # 自动触发：有新 release 发布时
+  release:
+    types: [published]
 
 jobs:
-  # 先获取版本信息并显示
-  get-versions:
+  get-version:
     runs-on: ubuntu-latest
     outputs:
-      latest_version: ${{ steps.get-versions.outputs.latest_version }}
-      stable_version: ${{ steps.get-versions.outputs.stable_version }}
-      beta_version: ${{ steps.get-versions.outputs.beta_version }}
-      alpha_version: ${{ steps.get-versions.outputs.alpha_version }}
-      selected_version: ${{ steps.resolve-tag.outputs.selected_version }}
+      distribute_tag: ${{ steps.resolve-tag.outputs.tag }}
+      source: ${{ steps.resolve-tag.outputs.source }}
+      need_approval: ${{ steps.resolve-tag.outputs.need_approval }}
     steps:
-      - name: Get all release versions
-        id: get-versions
+      - name: Resolve tag to distribute
+        id: resolve-tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # 获取所有 releases（包括 pre-release）
-          RELEASES=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-            "https://api.github.com/repos/${{ github.repository }}/releases?per_page=100")
+          # 优先使用手动输入的 tag
+          MANUAL_TAG="${{ github.event.inputs.tag }}"
+          RELEASE_TAG="${{ github.event.release.tag_name }}"
 
-          # 获取最新的稳定版（非 pre-release）
-          STABLE_VERSION=$(echo "$RELEASES" | jq -r '.[] | select(.prerelease == false) | .tag_name' | head -n 1)
+          if [ -n "$MANUAL_TAG" ]; then
+            # 手动触发模式 - 不需要批准
+            TAG="$MANUAL_TAG"
+            SOURCE="manual"
+            NEED_APPROVAL="false"
+            echo "✅ 使用手动输入的版本: $TAG"
+          elif [ -n "$RELEASE_TAG" ]; then
+            # Release 触发模式 - 需要批准
+            TAG="$RELEASE_TAG"
+            SOURCE="release"
+            NEED_APPROVAL="true"
+            echo "✅ 使用新发布的版本: $TAG"
+          else
+            # 手动触发但未输入 tag，自动获取最新版 - 不需要批准
+            LATEST_TAG=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+              "https://api.github.com/repos/${{ github.repository }}/releases?per_page=1" | \
+              jq -r '.[0].tag_name')
+            TAG="$LATEST_TAG"
+            SOURCE="auto-latest"
+            NEED_APPROVAL="false"
+            echo "✅ 未输入版本，自动获取最新版: $TAG"
+          fi
 
-          # 获取最新的 beta 版本
-          BETA_VERSION=$(echo "$RELEASES" | jq -r '.[] | select(.prerelease == true) | select(.tag_name | contains("beta")) | .tag_name' | head -n 1)
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "source=$SOURCE" >> $GITHUB_OUTPUT
+          echo "need_approval=$NEED_APPROVAL" >> $GITHUB_OUTPUT
 
-          # 获取最新的 alpha 版本
-          ALPHA_VERSION=$(echo "$RELEASES" | jq -r '.[] | select(.prerelease == true) | select(.tag_name | contains("alpha")) | .tag_name' | head -n 1)
-
-          # 获取最新的版本（不管稳定还是预发布）
-          LATEST_VERSION=$(echo "$RELEASES" | jq -r '.[0].tag_name')
-
-          echo "stable_version=$STABLE_VERSION" >> $GITHUB_OUTPUT
-          echo "beta_version=$BETA_VERSION" >> $GITHUB_OUTPUT
-          echo "alpha_version=$ALPHA_VERSION" >> $GITHUB_OUTPUT
-          echo "latest_version=$LATEST_VERSION" >> $GITHUB_OUTPUT
-
-          echo "📊 Current versions:"
-          echo "  Latest (all): $LATEST_VERSION"
-          echo "  Stable: $STABLE_VERSION"
-          echo "  Beta: $BETA_VERSION"
-          echo "  Alpha: $ALPHA_VERSION"
-
-      - name: Resolve selected tag
-        id: resolve-tag
+  # 只有 release 触发时才需要确认
+  confirm:
+    runs-on: ubuntu-latest
+    needs: get-version
+    if: needs.get-version.outputs.need_approval == 'true'
+    environment:
+      name: alist-release-confirmation
+    steps:
+      - name: Display release info
         run: |
-          RELEASE_TYPE="${{ github.event.inputs.release_type }}"
-          CUSTOM_TAG="${{ github.event.inputs.custom_tag }}"
-
-          case "$RELEASE_TYPE" in
-            "latest")
-              SELECTED="${{ steps.get-versions.outputs.latest_version }}"
-              echo "Selected latest version (all releases)"
-              ;;
-            "stable")
-              SELECTED="${{ steps.get-versions.outputs.stable_version }}"
-              echo "Selected stable version"
-              ;;
-            "beta")
-              SELECTED="${{ steps.get-versions.outputs.beta_version }}"
-              echo "Selected beta version"
-              ;;
-            "alpha")
-              SELECTED="${{ steps.get-versions.outputs.alpha_version }}"
-              echo "Selected alpha version"
-              ;;
-          esac
-
-          echo "selected_version=$SELECTED" >> $GITHUB_OUTPUT
-          echo "✅ Will distribute version: $SELECTED"
+          echo "## 🚀 新 Release 发布，需要确认" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| 项目 | 信息 |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 分发版本 | ${{ needs.get-version.outputs.distribute_tag }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Release 名称 | ${{ github.event.release.name }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 发布者 | ${{ github.event.release.author.login }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**说明:** 请确认是否将上述版本分发到 Alist 云盘"
 
   distribute:
     runs-on: ubuntu-latest
-    needs: get-versions
-    if: needs.get-versions.outputs.selected_version != '' && needs.get-versions.outputs.selected_version != 'null'
+    needs: [get-version, confirm]
+    # 只有需要批准时，distribute 才需要等待 confirm 完成
+    # 不需要批准时，直接执行
+    if: always() && (needs.get-version.outputs.need_approval == 'false' || needs.confirm.result == 'success')
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Show distribution info
         run: |
-          echo "📦 Distributing version: ${{ needs.get-versions.outputs.selected_version }}"
-          echo "📋 Release type: ${{ github.event.inputs.release_type }}"
-          echo ""
-          echo "Version info:"
-          echo "  Latest (all): ${{ needs.get-versions.outputs.latest_version }}"
-          echo "  Stable: ${{ needs.get-versions.outputs.stable_version }}"
-          echo "  Beta: ${{ needs.get-versions.outputs.beta_version }}"
-          echo "  Alpha: ${{ needs.get-versions.outputs.alpha_version }}"
+          if [ "${{ needs.get-version.outputs.need_approval }}" = "true" ]; then
+            echo "✅ 已确认，开始分发到 Alist 云盘"
+          else
+            echo "🚀 手动触发，直接开始分发到 Alist 云盘"
+          fi
+          echo "📦 版本: ${{ needs.get-version.outputs.distribute_tag }}"
+          echo "🔔 触发源: ${{ needs.get-version.outputs.source }}"
 
       - name: Distribute to Cloud Drives via Alist
         env:
           ALIST_URL: ${{ secrets.ALIST_URL }}
           ALIST_USERNAME: ${{ secrets.ALIST_USERNAME }}
           ALIST_PASSWORD: ${{ secrets.ALIST_PASSWORD }}
-          DISTRIBUTE_TAG: ${{ needs.get-versions.outputs.selected_version }}
+          DISTRIBUTE_TAG: ${{ needs.get-version.outputs.distribute_tag }}
         run: |
           echo "Installing dependencies..."
           pip install requests
