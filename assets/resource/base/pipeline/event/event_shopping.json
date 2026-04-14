@@ -28,13 +28,13 @@
 			"param": {}
 		},
 		"timeout": 6000,
-		"next": ["进入忘尘当铺"]
+		"next": ["进入虹夜商店"]
 	},
-	"进入忘尘当铺": {
+	"进入虹夜商店": {
 		"recognition": {
 			"type": "OCR",
 			"param": {
-				"expected": ["忘尘当铺", "忘尘", "当铺"],
+				"expected": ["虹夜商店", "虹夜"],
 				"roi": [31, 252, 629, 52]
 			}
 		},
@@ -44,13 +44,13 @@
 		},
 		"max_hit": 1,
 		"post_delay": 1000,
-		"next": ["确认进入忘尘当铺"]
+		"next": ["确认进入虹夜商店"]
 	},
-	"确认进入忘尘当铺": {
+	"确认进入虹夜商店": {
 		"recognition": {
 			"type": "TemplateMatch",
 			"param": {
-				"template": ["shopping/event/幽莲玉钱.png"],
+				"template": ["shopping/event/乌鸦芯片.png"],
 				"roi": [589, 6, 123, 130]
 			}
 		},
@@ -59,16 +59,16 @@
 			"param": {}
 		},
 		"focus": {
-			"Node.Action.Succeeded": "进入忘尘当铺"
+			"Node.Action.Succeeded": "进入虹夜商店"
 		},
 		"timeout": 5000,
-		"next": ["[JumpBack]忘尘当铺_物品购买", "[JumpBack]退出获得奖励popop"]
+		"next": ["[JumpBack]虹夜商店_物品购买", "[JumpBack]退出获得奖励popop"]
 	},
-	"忘尘当铺_物品购买": {
+	"虹夜商店_物品购买": {
 		"recognition": {
 			"type": "TemplateMatch",
 			"param": {
-				"template": ["shopping/event/幽莲玉钱物品购买.png"],
+				"template": ["shopping/event/乌鸦芯片物品购买.png"],
 				"roi": [189, 445, 132, 123]
 			}
 		},
@@ -77,7 +77,7 @@
 			"param": {}
 		},
 		"timeout": 8000,
-		"next": ["购买最多", "忘尘当铺_领取单个"]
+		"next": ["购买最多", "虹夜商店_领取单个"]
 	},
 	"购买最多": {
 		"recognition": {
@@ -96,9 +96,9 @@
 				"end_hold": 500
 			}
 		},
-		"next": ["忘尘当铺_领取最多"]
+		"next": ["虹夜商店_领取最多"]
 	},
-	"忘尘当铺_领取单个": {
+	"虹夜商店_领取单个": {
 		"recognition": {
 			"type": "TemplateMatch",
 			"param": {
@@ -118,7 +118,7 @@
 			"[JumpBack]退出点击（上限）popop"
 		]
 	},
-	"忘尘当铺_领取最多": {
+	"虹夜商店_领取最多": {
 		"recognition": {
 			"type": "TemplateMatch",
 			"param": {
