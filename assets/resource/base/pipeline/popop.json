@@ -656,6 +656,43 @@
 		},
 		"next": []
 	},
+	"确认返回教学引导popop": {
+		"recognition": {
+			"type": "And",
+			"param": {
+				"all_of": [
+					{
+						"recognition": {
+							"type": "OCR",
+							"param": {
+								"expected": ["确定", "确认"],
+								"roi": [402, 635, 156, 67]
+							}
+						}
+					},
+					{
+						"recognition": {
+							"type": "OCR",
+							"param": {
+								"expected": [
+									"教学引导",
+									"将为您跳过同类型全部已观看过的教学引导，是否确认跳过？",
+									"确认跳过"
+								],
+								"roi": [100, 491, 495, 124]
+							}
+						}
+					}
+				],
+				"box_index": 0
+			}
+		},
+		"action": {
+			"type": "Click",
+			"param": {}
+		},
+		"next": []
+	},
 	"取消返回消耗钻石popop": {
 		"recognition": {
 			"type": "And",
