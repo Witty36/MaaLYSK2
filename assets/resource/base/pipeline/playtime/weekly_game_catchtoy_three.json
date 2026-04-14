@@ -154,12 +154,14 @@
 		"focus": {
 			"Node.Recognition.Succeeded": "他开始抓三爪娃娃"
 		},
+		"timeout": 30000,
 		"next": [
 			"娃娃机结算退出继续",
 			"[JumpBack]娃娃机对话_上_让他抓",
 			"[JumpBack]娃娃机对话_下_让他抓",
 			"[JumpBack]过剧情",
 			"[JumpBack]选取娃娃_三爪",
+			"[JumpBack]娃娃机鼓励点点_三爪",
 			"[JumpBack]抓娃娃页面等待_三爪"
 		],
 		"on_error": ["null"]
@@ -272,6 +274,59 @@
 		},
 		"next": []
 	},
+	"娃娃机鼓励点点_三爪": {
+		"recognition": {
+			"type": "And",
+			"param": {
+				"all_of": [
+					{
+						"recognition": {
+							"type": "OCR",
+							"param": {
+								"expected": ["^[0-9]$", "^[1-3][0-9]$"],
+								"replace": [
+									["g", "9"],
+									["I", "1"],
+									["i", "1"],
+									["l", "1"],
+									["o", "0"],
+									["O", "0"],
+									["z", "2"],
+									["Z", "2"],
+									["S", "5"],
+									["s", "5"],
+									["B", "8"],
+									["b", "8"]
+								],
+								"roi": [261, 159, 198, 133]
+							}
+						}
+					},
+					{
+						"recognition": {
+							"type": "TemplateMatch",
+							"param": {
+								"template": [
+									"playtime/catchtoy/男主抓娃娃.png"
+								],
+								"roi": [79, 426, 162, 190],
+								"threshold": 0.6
+							}
+						}
+					}
+				]
+			}
+		},
+		"action": {
+			"type": "Click",
+			"param": {
+				"target": [388, 767, 239, 166]
+			}
+		},
+		"repeat": 10,
+		"repeat_delay": 100,
+		"next": []
+	},
 	"抓娃娃页面等待_三爪": {
 		"recognition": {
 			"type": "TemplateMatch",
@@ -284,7 +339,7 @@
 		"action": {
 			"type": "Click",
 			"param": {
-				"target": [102, 434, 186, 97]
+				"target": [388, 767, 239, 166]
 			}
 		},
 		"repeat": 10,
@@ -343,9 +398,10 @@
 		"action": {
 			"type": "Swipe",
 			"param": {
-				"begin": [232, 1104],
-				"end": [205, 296],
-				"duration": 1000
+				"begin": [223, 1112, 10, 10],
+				"end": [205, 296, 15, 15],
+				"end_hold": 300,
+				"duration": 1500
 			}
 		},
 		"focus": {
@@ -353,6 +409,7 @@
 		},
 		"repeat": 2,
 		"repeat_delay": 500,
+		"pre_delay": 1000,
 		"post_delay": 10000,
 		"next": ["三爪抓一下"]
 	},
@@ -367,9 +424,10 @@
 		"action": {
 			"type": "Swipe",
 			"param": {
-				"begin": [232, 1104],
-				"end": [205, 296],
-				"duration": 1000
+				"begin": [223, 1112, 10, 10],
+				"end": [205, 296, 15, 15],
+				"end_hold": 300,
+				"duration": 1500
 			}
 		},
 		"focus": {
@@ -377,6 +435,7 @@
 		},
 		"repeat": 2,
 		"repeat_delay": 500,
+		"pre_delay": 1000,
 		"post_delay": 10000,
 		"timeout": 40000,
 		"next": ["他开始抓娃娃", "[JumpBack]三爪抓一下"],
