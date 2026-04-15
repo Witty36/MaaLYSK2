@@ -75,7 +75,11 @@
 		"pre_delay": 500,
 		"post_delay": 1000,
 		"post_wait_freezes": 500,
-		"next": ["检查喵喵牌次数", "[JumpBack]喵喵牌出发"]
+		"next": [
+			"检查喵喵牌次数",
+			"[JumpBack]喵喵牌出发",
+			"[JumpBack]喵喵牌再来一局"
+		]
 	},
 	"喵喵牌出发": {
 		"recognition": {
@@ -154,40 +158,7 @@
 		},
 		"next": ["喵喵牌切换人物", "[JumpBack]返回上一级页面"]
 	},
-	"喵喵牌退出": {
-		"recognition": {
-			"type": "And",
-			"param": {
-				"all_of": [
-					{
-						"recognition": {
-							"type": "OCR",
-							"param": {
-								"expected": ["退出"],
-								"roi": [138, 1028, 206, 79]
-							}
-						}
-					},
-					{
-						"recognition": {
-							"type": "ColorMatch",
-							"param": {
-								"upper": [195, 194, 192],
-								"lower": [175, 174, 172],
-								"roi": [399, 1046, 159, 36],
-								"count": 800
-							}
-						}
-					}
-				],
-				"box_index": 0
-			}
-		},
-		"focus": {
-			"Node.Recognition.Succeeded": "喵喵牌次数已达上限"
-		},
-		"next": ["喵喵牌切换人物", "[JumpBack]返回上一级页面"]
-	},
+
 	"喵喵牌游戏中页面": {
 		"recognition": {
 			"type": "TemplateMatch",
@@ -237,11 +208,11 @@
 		},
 		"next": [
 			"是否喵喵牌页面",
+			"快乐出游再来一局页面",
 			"[JumpBack]退出牵绊度提升popop",
 			"[JumpBack]退出获得奖励popop",
-			"[JumpBack]退出喵喵牌结算popop",
-			"[JumpBack]退出快乐出游结算popop",
-			"[JumpBack]退出各类弹窗"
+			"[JumpBack]快乐出游结算退出",
+			"[JumpBack]退出各类弹窗(无快乐出游退出)"
 		],
 		"on_error": ["null"]
 	},
@@ -270,6 +241,73 @@
 			"type": "Click",
 			"param": {
 				"target_offset": [5, 5, -10, -10]
+			}
+		}
+	},
+	"快乐出游结算退出": {
+		"recognition": {
+			"type": "And",
+			"param": {
+				"all_of": [
+					{
+						"recognition": {
+							"type": "OCR",
+							"param": {
+								"expected": ["退出"],
+								"roi": [138, 1028, 206, 79]
+							}
+						}
+					},
+					{
+						"recognition": {
+							"type": "ColorMatch",
+							"param": {
+								"upper": [195, 194, 192],
+								"lower": [175, 174, 172],
+								"roi": [399, 1046, 159, 36],
+								"count": 800
+							}
+						}
+					}
+				],
+				"box_index": 0
+			}
+		},
+		"action": {
+			"type": "Click",
+			"param": {
+				"target": [229, 1062, 24, 11]
+			}
+		},
+		"next": []
+	},
+	"快乐出游再来一局页面": {
+		"recognition": {
+			"type": "And",
+			"param": {
+				"all_of": [
+					{
+						"recognition": {
+							"type": "OCR",
+							"param": {
+								"expected": ["再来一局", "再来", "一局"],
+								"roi": [367, 1017, 224, 102]
+							}
+						}
+					},
+					{
+						"recognition": {
+							"type": "ColorMatch",
+							"param": {
+								"upper": [244, 224, 205],
+								"lower": [224, 204, 185],
+								"roi": [399, 1046, 159, 36],
+								"count": 800
+							}
+						}
+					}
+				],
+				"box_index": 0
 			}
 		}
 	}

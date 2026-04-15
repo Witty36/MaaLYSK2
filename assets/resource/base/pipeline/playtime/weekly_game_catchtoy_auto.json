@@ -137,6 +137,7 @@
 		"focus": {
 			"Node.Recognition.Succeeded": "开始抓二爪娃娃"
 		},
+		"timeout": 30000,
 		"next": [
 			"娃娃机结算退出继续",
 			"尝试抢男主娃娃",
@@ -326,14 +327,15 @@
 				"target": [229, 1062, 24, 11]
 			}
 		},
+		"post_delay": 3000,
 		"next": [
 			"是否娃娃机页面",
-			"[JumpBack]退出娃娃机结算popop",
-			"[JumpBack]退出快乐出游结算popop",
-			"[JumpBack]退出点击空白继续popop",
-			"[JumpBack]退出新娃娃获得popop",
+			"快乐出游再来一局页面",
 			"[JumpBack]退出牵绊度提升popop",
-			"[JumpBack]退出点击1popop"
+			"[JumpBack]退出获得奖励popop",
+			"[JumpBack]快乐出游结算退出",
+			"[JumpBack]退出新娃娃获得popop",
+			"[JumpBack]退出各类弹窗(无快乐出游退出)"
 		],
 		"on_error": ["null"]
 	},

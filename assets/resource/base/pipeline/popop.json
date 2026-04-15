@@ -26,6 +26,19 @@
 		},
 		"next": ["返回等待"]
 	},
+	"退出点击(无等待)popop": {
+		"recognition": {
+			"type": "DirectHit",
+			"param": {}
+		},
+		"action": {
+			"type": "Click",
+			"param": {
+				"target": [19, 936, 12, 13]
+			}
+		},
+		"next": []
+	},
 	"退出点击1popop": {
 		"recognition": {
 			"type": "DirectHit",

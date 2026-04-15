@@ -134,7 +134,11 @@
 		"focus": {
 			"Node.Recognition.Succeeded": "选择心跳回旋"
 		},
-		"next": ["娃娃机是否上限", "[JumpBack]娃娃机出发"],
+		"next": [
+			"娃娃机是否上限",
+			"[JumpBack]娃娃机出发",
+			"[JumpBack]娃娃机再来一局"
+		],
 		"on_error": ["null"]
 	},
 	"选择心跳回旋": {
@@ -186,6 +190,42 @@
 		"next": ["娃娃机游戏中页面"],
 		"on_error": ["娃娃机出发"]
 	},
+	"娃娃机再来一局": {
+		"recognition": {
+			"type": "And",
+			"param": {
+				"all_of": [
+					{
+						"recognition": {
+							"type": "OCR",
+							"param": {
+								"expected": ["再来一局", "再来", "一局"],
+								"roi": [367, 1017, 224, 102]
+							}
+						}
+					},
+					{
+						"recognition": {
+							"type": "ColorMatch",
+							"param": {
+								"upper": [244, 224, 205],
+								"lower": [224, 204, 185],
+								"roi": [399, 1046, 159, 36],
+								"count": 800
+							}
+						}
+					}
+				],
+				"box_index": 0
+			}
+		},
+		"action": {
+			"type": "Click",
+			"param": {}
+		},
+		"next": ["娃娃机游戏中页面"],
+		"on_error": ["娃娃机再来一局"]
+	},
 	"娃娃机游戏中页面": {
 		"recognition": {
 			"type": "OCR",
@@ -231,11 +271,11 @@
 		},
 		"next": [
 			"是否娃娃机页面",
+			"快乐出游再来一局页面",
 			"[JumpBack]退出牵绊度提升popop",
 			"[JumpBack]退出获得奖励popop",
-			"[JumpBack]退出娃娃机结算popop",
-			"[JumpBack]退出快乐出游结算popop",
-			"[JumpBack]退出各类弹窗"
+			"[JumpBack]快乐出游结算退出",
+			"[JumpBack]退出各类弹窗(无快乐出游退出)"
 		],
 		"on_error": ["null"]
 	},

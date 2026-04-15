@@ -8,7 +8,7 @@
 						"recognition": {
 							"type": "OCR",
 							"param": {
-								"expected": ["我来"],
+								"expected": ["我来", "自己来"],
 								"roi": [196, 475, 336, 155]
 							}
 						}
@@ -135,7 +135,7 @@
 						"recognition": {
 							"type": "OCR",
 							"param": {
-								"expected": ["你继续"],
+								"expected": ["你继续", "看你抓"],
 								"roi": [292, 617, 147, 69]
 							}
 						}
