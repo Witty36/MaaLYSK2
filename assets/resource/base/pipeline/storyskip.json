@@ -30,10 +30,12 @@
 		},
 		"action": {
 			"type": "Click",
-			"param": {"target": [571, 1198, 17, 23]}
+			"param": {
+				"target": [571, 1198, 17, 23]
+			}
 		},
-		"repeat": 3,
-		"repeat_delay": 1000,
+		"repeat": 2,
+		"repeat_delay": 2000,
 		"timeout": 15000,
 		"next": [
 			"[JumpBack]选剧情选项",
