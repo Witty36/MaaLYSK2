@@ -33,7 +33,7 @@
 		"post_delay": 3000,
 		"repeat": 3,
 		"next": ["已在生日剧情页"],
-		"on_error": ["进入生日剧情页"]
+		"on_error": ["null"]
 	},
 	"已在生日剧情页": {
 		"recognition": {
@@ -45,7 +45,7 @@
 		},
 		"timeout": 8000,
 		"next": [
-			"找找生日剧情4",
+			"[JumpBack]找找生日剧情4",
 			"[JumpBack]找找生日剧情3",
 			"[JumpBack]找找生日剧情2",
 			"[JumpBack]找找生日剧情1"
@@ -89,9 +89,10 @@
 			"type": "Click",
 			"param": {}
 		},
+		"max_hit": 1,
 		"post_delay": 2000,
 		"next": ["自动过剧情"],
-		"on_error": ["找找生日剧情1"]
+		"on_error": ["null"]
 	},
 	"找找生日剧情2": {
 		"recognition": {
@@ -129,9 +130,10 @@
 			"type": "Click",
 			"param": {}
 		},
+		"max_hit": 1,
 		"post_delay": 2000,
 		"next": ["自动过剧情"],
-		"on_error": ["找找生日剧情2"]
+		"on_error": ["null"]
 	},
 	"找找生日剧情3": {
 		"recognition": {
@@ -166,9 +168,10 @@
 			"type": "Click",
 			"param": {}
 		},
+		"max_hit": 1,
 		"post_delay": 2000,
 		"next": ["自动过剧情"],
-		"on_error": ["找找生日剧情3"]
+		"on_error": ["null"]
 	},
 	"找找生日剧情4": {
 		"recognition": {
@@ -182,8 +185,10 @@
 			"type": "Click",
 			"param": {}
 		},
+		"max_hit": 1,
 		"post_delay": 2000,
-		"next": ["自动过剧情"]
+		"next": ["自动过剧情"],
+		"on_error": ["null"]
 	},
 	"生日剧情读完结束": {
 		"recognition": {

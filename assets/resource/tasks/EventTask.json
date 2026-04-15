@@ -27,7 +27,7 @@
 			//"entry": "stop",
 			"entry": "进入生日读剧情",
 			"default_check": false,
-			"description": "[color:orange]当前版本：秦彻-夜雨流明[/color]\n\n[color:red]生日剧情如有未解锁剧情，不会自动结束，最好单独进行！[/color]\n\n限时活动读剧情，初步适配了进入活动读剧情，如果有问题就提前进入一次页面过下剧情"
+			"description": "[color:orange]当前版本：秦彻-夜雨流明[/color]\n\n[color:red]尽量在剧情全解锁后再使用，生日剧情如有未解锁剧情，不会自动结束，最好单独进行！[/color]\n\n限时活动读剧情，初步适配了进入活动读剧情，如果有问题就提前进入一次页面过下剧情"
 		},
 		{
 			"name": "🌈限时活动小游戏",
