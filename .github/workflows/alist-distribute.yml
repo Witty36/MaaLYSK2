@@ -9,9 +9,12 @@ on:
         required: false
         default: ""
         type: string
-  # 自动触发：有新 release 发布时
-  release:
-    types: [published]
+  # 自动触发：有新 release 发布时install.yml触发
+      from_install:
+        description: "Triggered from install workflow"
+        required: false
+        default: "false"
+        type: string
 
 jobs:
   get-version:
@@ -28,20 +31,23 @@ jobs:
         run: |
           # 优先使用手动输入的 tag
           MANUAL_TAG="${{ github.event.inputs.tag }}"
-          RELEASE_TAG="${{ github.event.release.tag_name }}"
+          FROM_INSTALL="${{ github.event.inputs.from_install }}"
 
           if [ -n "$MANUAL_TAG" ]; then
-            # 手动触发模式 - 不需要批准
             TAG="$MANUAL_TAG"
-            SOURCE="manual"
-            NEED_APPROVAL="false"
-            echo "✅ 使用手动输入的版本: $TAG"
-          elif [ -n "$RELEASE_TAG" ]; then
-            # Release 触发模式 - 需要批准
-            TAG="$RELEASE_TAG"
-            SOURCE="release"
-            NEED_APPROVAL="true"
-            echo "✅ 使用新发布的版本: $TAG"
+            
+            # 判断是否来自 install workflow
+            if [ "$FROM_INSTALL" = "true" ]; then
+              # 来自 install 触发 - 需要批准
+              SOURCE="install-workflow"
+              NEED_APPROVAL="true"
+              echo "✅ 来自 install workflow 的版本: $TAG"
+            else
+              # 手动触发模式 - 不需要批准
+              SOURCE="manual"
+              NEED_APPROVAL="false"
+              echo "✅ 使用手动输入的版本: $TAG"
+            fi
           else
             # 手动触发但未输入 tag，自动获取最新版 - 不需要批准
             LATEST_TAG=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
@@ -57,7 +63,7 @@ jobs:
           echo "source=$SOURCE" >> $GITHUB_OUTPUT
           echo "need_approval=$NEED_APPROVAL" >> $GITHUB_OUTPUT
 
-  # 只有 release 触发时才需要确认
+  # 只有需要确认时才触发
   confirm:
     runs-on: ubuntu-latest
     needs: get-version
@@ -67,13 +73,12 @@ jobs:
     steps:
       - name: Display release info
         run: |
-          echo "## 🚀 新 Release 发布，需要确认" >> $GITHUB_STEP_SUMMARY
+          echo "## 🚀 新版本发布，需要确认" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| 项目 | 信息 |" >> $GITHUB_STEP_SUMMARY
           echo "|------|------|" >> $GITHUB_STEP_SUMMARY
           echo "| 分发版本 | ${{ needs.get-version.outputs.distribute_tag }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Release 名称 | ${{ github.event.release.name }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 发布者 | ${{ github.event.release.author.login }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 触发源 | ${{ needs.get-version.outputs.source }} |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**说明:** 请确认是否将上述版本分发到 Alist 云盘"
 
@@ -86,6 +91,24 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Wait for release assets to be ready
+        run: |
+          echo "等待 release assets 准备就绪..."
+          for i in {1..30}; do
+            ASSET_COUNT=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              "https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ needs.get-version.outputs.distribute_tag }}" | \
+              jq '.assets | length')
+            
+            if [ "$ASSET_COUNT" -gt 0 ]; then
+              echo "✅ 找到 $ASSET_COUNT 个 assets，开始分发"
+              break
+            fi
+            echo "等待中... ($i/30)"
+            sleep 2
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Show distribution info
         run: |
