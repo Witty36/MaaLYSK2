@@ -1,10 +1,8 @@
 [remote.github]
 owner = "Witty36"
 repo = "MaaLYSK"
-#自用时换成自己的仓库owner和repo
-#注意，本地git user需与github一致才能实现成功@
+
 [changelog]
-# 标题
 header = """
 # 更新日志
 ## Commit
@@ -90,30 +88,25 @@ body = """
 {% endfor %}
 {% endif -%}
 
-{%- if github -%}
-{% if github.contributors | filter(attribute="is_first_time", value=true) | length != 0 %}
+{# 修复：只在 github 存在且有 contributors 时才输出 #}
+{%- if github is defined and github and github.contributors is defined and github.contributors | filter(attribute="is_first_time", value=true) | length != 0 %}
   ## 新贡献者 ❤️
-{% endif %}\
 {% for contributor in github.contributors | filter(attribute="is_first_time", value=true) %}
   * @{{ contributor.username }} made their first contribution
     {%- if contributor.pr_number %} in \
       [#{{ contributor.pr_number }}]({{ self::remote_url() }}/pull/{{ contributor.pr_number }}) \
     {%- endif %}
 {%- endfor -%}
-{%- endif %}
+{%- endif -%}
 """
 
-# 尾部
 footer = """
 """
 
 [git]
-# 过滤提交
-conventional_commits = true # 使用约定式提交格式
-filter_unconventional = false # 不过滤非约定式提交
-# 启用完整的 commit 信息
+conventional_commits = true
+filter_unconventional = false
 split_commits = false
-# 保留完整的 commit body
 protect_breaking_commits = false
 commit_parsers = [
     { message = "^feat", group = "<!-- 0 -->✨ 新功能" },
@@ -130,12 +123,8 @@ commit_parsers = [
     { message = "^revert", group = "<!-- 10 -->◀️ 撤销" },
 ]
 
-# 忽略这些提交
 ignore_tags = "rc"
-
-# 排序规则
 sort_commits = "oldest"
 
-# 启用GitHub集成
 [git.github]
 commits = true
