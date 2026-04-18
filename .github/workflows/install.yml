@@ -299,7 +299,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Trigger Alist Distribution (async)
-        if: github.event_name == 'release'
+        if: needs.meta.outputs.is_release == 'true'
         shell: bash
         run: |
           # 异步触发 Alist 分发，不等待结果
