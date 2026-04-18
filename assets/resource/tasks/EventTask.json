@@ -25,9 +25,22 @@
 		{
 			"name": "✨限时活动读剧情",
 			//"entry": "stop",
-			"entry": "进入生日读剧情",
+			"entry": "进入剧情",
+			"option": ["选择读的剧情"],
 			"default_check": false,
-			"description": "[color:orange]当前版本：秦彻-夜雨流明[/color]\n\n[color:red]尽量在剧情全解锁后再使用，生日剧情如有未解锁剧情，不会自动结束，最好单独进行！[/color]\n\n限时活动读剧情，初步适配了进入活动读剧情，如果有问题就提前进入一次页面过下剧情"
+			"description": "[color:orange]当前版本：秦彻-夜雨流明[/color]\n\n[color:red]尽量在剧情全解锁后再使用，生日剧情如有未解锁剧情，不会自动结束，最好单独进行！[/color]\n\n限时活动读剧情，初步适配了进入活动读剧情，如果有问题就提前进入一次页面过下剧情",
+			"pipeline_override": {
+				"点成2倍速": {
+					"next": [
+						"[JumpBack]选剧情选项",
+						"[JumpBack]跳过吹气",
+						"[JumpBack]自动过剧情点点",
+						"[JumpBack]live剧情等待",
+						"[JumpBack]为他唱生日歌",
+						"[JumpBack]结束唱歌"
+					]
+				}
+			}
 		},
 		{
 			"name": "🌈限时活动小游戏",
@@ -39,6 +52,65 @@
 		}
 	],
 	"option": {
+		"选择读的剧情": {
+			"type": "select",
+			"description": "选择衣帽间对话还是生日剧情",
+			"cases": [
+				{
+					"name": "衣帽间对话",
+					"description": "制作衣帽间的衣服并过对话剧情",
+
+					"pipeline_override": {
+						"进入剧情": {
+							"next": ["进入衣帽间制作"]
+						}
+					}
+				},
+				{
+					"name": "4段生日剧情",
+					"description": "生日活动页面，4段生日剧情",
+					"pipeline_override": {
+						"进入剧情": {
+							"next": ["进入生日读剧情"]
+						}
+					},
+					"option": ["送娃娃模式选择"]
+				}
+			]
+		},
+		"送娃娃模式选择": {
+			"type": "select",
+			"description": "如果选择送出娃娃过剧情,需要娃娃已通过审核",
+			"cases": [
+				{
+					"name": "全都送",
+					"description": "没有装扮过娃娃，直接是初始状态也送",
+					"pipeline_override": {
+						"找找生日剧情4": {
+							"next": ["准备好送出娃娃", "准备好送出娃娃_未装扮"]
+						}
+					}
+				},
+				{
+					"name": "装扮过送",
+					"description": "装扮过一次，点击“准备好了”送出并过剧情",
+					"pipeline_override": {
+						"找找生日剧情4": {
+							"next": ["准备好送出娃娃"]
+						}
+					}
+				},
+				{
+					"name": "直接停止剧情",
+					"description": "不过剧情4，直接停止",
+					"pipeline_override": {
+						"找找生日剧情4": {
+							"next": []
+						}
+					}
+				}
+			]
+		},
 		"韶华宴岁领取": {
 			"type": "switch",
 			"description": "领经营任务奖励",

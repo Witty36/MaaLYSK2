@@ -1,4 +1,7 @@
 {
+	"进入剧情": {
+		"next": ["进入生日读剧情"]
+	},
 	"进入生日读剧情": {
 		"recognition": {
 			"type": "DirectHit",
@@ -187,7 +190,43 @@
 		},
 		"max_hit": 1,
 		"post_delay": 2000,
+		"next": ["准备好送出娃娃"],
+		"on_error": ["null"]
+	},
+	"准备好送出娃娃": {
+		"recognition": {
+			"type": "OCR",
+			"param": {
+				"expected": ["准备好了", "准备"],
+				"roi": [371, 757, 216, 109]
+			}
+		},
+		"action": {
+			"type": "Click",
+			"param": {}
+		},
+		"post_delay": 1000,
+		"repeat": 2,
 		"next": ["自动过剧情"],
+		"on_error": ["null"]
+	},
+	"准备好送出娃娃_未装扮": {
+		"recognition": {
+			"type": "OCR",
+			"param": {
+				"expected": ["未装扮娃娃", "默认娃"],
+				"roi": [114, 470, 487, 165]
+			}
+		},
+		"action": {
+			"type": "Click",
+			"param": {
+				"target": [474, 675, 13, 7]
+			}
+		},
+		"post_delay": 1000,
+		"repeat": 2,
+		"next": ["准备好送出娃娃"],
 		"on_error": ["null"]
 	},
 	"生日剧情读完结束": {
