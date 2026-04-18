@@ -184,13 +184,6 @@ jobs:
             if [ -f "MFA/$original_name" ]; then
               echo "Found $original_name, renaming to $TARGET_NAME..."
               mv "MFA/$original_name" "MFA/$TARGET_NAME"
-              
-              # 为非 Windows 平台设置可执行权限
-              if [[ "${{ matrix.os }}" != "win" ]]; then
-                chmod +x "MFA/$TARGET_NAME"
-                echo "Set execute permission for $TARGET_NAME"
-              fi
-              
               FOUND=true
               break
             fi
@@ -263,6 +256,22 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: assets
+
+      - name: Set execute permissions for Unix artifacts
+        run: |
+          cd assets
+          for f in *; do
+            # 只对非 Windows 的 artifact 设置权限
+            if [[ "$f" != *win* ]]; then
+              echo "Setting permissions for: $f"
+              
+              # 设置 MaaLYSK 可执行权限
+              if [ -f "$f/MaaLYSK" ]; then
+                chmod +x "$f/MaaLYSK"
+                echo "  ✓ Set execute permission for $f/MaaLYSK"
+              fi
+            fi
+          done
 
       - run: |
           cd assets
