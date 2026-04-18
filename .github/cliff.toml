@@ -30,12 +30,12 @@ body = """
         {% set prefix = "Chore" %}
     {% else %}
         {% set prefix = "" %}
-    {% endif %}
+    {% endif -%}
 
     {# 文档类型不在这里输出，后面单独处理 #}
-    {% if group_name != "📚 文档" %}
+    {% if group_name != "📚 文档" -%}
 - {{ prefix }}：{{ msg }} @{{ commit.author.name }}
-    {% endif %}
+    {% endif -%}
 {%- endmacro %}
 
 {% if version -%}
@@ -43,13 +43,12 @@ body = """
 {% else -%}
 ## 未发布
 {% endif -%}
-{%- -%}
+
 ## Commit
-{%- -%}
 
 {% for group, commits in commits | group_by(attribute="group") -%}
     {% set group_name = group | split(pat="-->") | last | trim %}
-    {% if group_name != "📚 文档" %}
+    {% if group_name != "📚 文档" -%}
         {% for commit in commits | filter(attribute="scope") | sort(attribute="scope") -%}
             {{ self::print_commit(commit=commit) }}
         {%- endfor %}
@@ -57,29 +56,29 @@ body = """
             {%- if not commit.scope -%}
             {{ self::print_commit(commit=commit) }}
             {% endif -%}
-        {% endfor %}
-    {% endif %}
-{% endfor %}
+        {% endfor -%}
+    {% endif -%}
+{% endfor -%}
 
 {# 单独输出文档 #}
 {% for group, commits in commits | group_by(attribute="group") -%}
     {% set group_name = group | split(pat="-->") | last | trim %}
-    {% if group_name == "📚 文档" %}
-        {% if commits | length > 0 %}
+    {% if group_name == "📚 文档" -%}
+        {% if commits | length > 0 -%}
 ### Doc
-        {% endif %}
+        {% endif -%}
         {% for commit in commits -%}
             {% set msg = commit.message | split(pat="\n") | first %}
 - {{ msg }} @{{ commit.author.name }}
-        {% endfor %}
-    {% endif %}
-{% endfor %}
+        {% endfor -%}
+    {% endif -%}
+{% endfor -%}
 
 {%- if github -%}
-{% if github.contributors | filter(attribute="is_first_time", value=true) | length != 0 %}
+{% if github.contributors | filter(attribute="is_first_time", value=true) | length != 0 -%}
 ## 新贡献者 ❤️
-{% endif %}\
-{% for contributor in github.contributors | filter(attribute="is_first_time", value=true) %}
+{% endif -%}\
+{% for contributor in github.contributors | filter(attribute="is_first_time", value=true) -%}
 * @{{ contributor.username }} made their first contribution
     {%- if contributor.pr_number %} in \
       [#{{ contributor.pr_number }}]({{ self::remote_url() }}/pull/{{ contributor.pr_number }}) \
