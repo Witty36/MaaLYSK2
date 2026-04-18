@@ -31,42 +31,41 @@ body = """
 {% set prefix = "" -%}
 {% endif -%}
 {# 文档类型不在这里输出，后面单独处理 #}
-{% if group_name != "📚 文档" %}
+{% if group_name != "📚 文档" -%}
 - {{ prefix }}：{{ msg }} @{{ commit.author.name }}
-{% endif %}
-{%- endmacro %}
+{% endif -%}
+{%- endmacro -%}
 {% if version -%}
 ## {{ version | trim_start_matches(pat="v") }} ({{ timestamp | date(format="%Y-%m-%d") }})
 {% else -%}
 ## 未发布
 {% endif -%}
 ## Commit
-{% for group, commits in commits | group_by(attribute="group") %}
+{%- for group, commits in commits | group_by(attribute="group") -%}
 {% set group_name = group | split(pat="-->") | last | trim -%}
 {% if group_name != "📚 文档" -%}
-{% for commit in commits | filter(attribute="scope") | sort(attribute="scope") %}
-{{ self::print_commit(commit=commit) }}
-{% endfor %}
-{% for commit in commits %}
-{% if not commit.scope %}
-{{ self::print_commit(commit=commit) }}
-{% endif %}
-{% endfor %}
-{% endif %}
-{% endfor %}
-
-{# 单独输出文档 #}
+{% for commit in commits | filter(attribute="scope") | sort(attribute="scope") -%}
+{{- self::print_commit(commit=commit) -}}
+{%- endfor -%}
+{% for commit in commits -%}
+{% if not commit.scope -%}
+{{- self::print_commit(commit=commit) -}}
+{% endif -%}
+{% endfor -%}
+{% endif -%}
+{% endfor -%}
+{#- 单独输出文档 -#}
 {% for group, commits in commits | group_by(attribute="group") -%}
 {% set group_name = group | split(pat="-->") | last | trim -%}
-{% if group_name == "📚 文档" %}
-{% if commits | length > 0 %}
+{% if group_name == "📚 文档" -%}
+{% if commits | length > 0 -%}
 ### Doc
-{% endif %}
-{% for commit in commits %}
+{% endif -%}
+{% for commit in commits -%}
 {% set msg = commit.message | split(pat="\n") | first -%}
 - {{ msg }} @{{ commit.author.name }}
-{% endfor %}
-{% endif %}
+{% endfor -%}
+{% endif -%}
 {% endfor -%}
 
 {%- if github -%}
