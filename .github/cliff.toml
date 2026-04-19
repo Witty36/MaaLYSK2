@@ -32,7 +32,7 @@ body = """
 {% endif -%}
 {# 文档类型不在这里输出，后面单独处理 #}
 {% if group_name != "📚 文档" -%}
-- {{ prefix }}：{{ msg }} @{{ commit.author.name }}
+{{- " - " ~ prefix ~ "：" ~ msg ~ " @" ~ commit.author.name ~ "\n" -}}
 {% endif -%}
 {%- endmacro -%}
 {% if version -%}
@@ -63,7 +63,7 @@ body = """
 {% endif -%}
 {% for commit in commits -%}
 {% set msg = commit.message | split(pat="\n") | first -%}
-- {{ msg }} @{{ commit.author.name }}
+{{- " - " ~ msg ~ " @" ~ commit.author.name ~ "\n" -}}
 {% endfor -%}
 {% endif -%}
 {% endfor -%}
