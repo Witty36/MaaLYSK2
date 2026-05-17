@@ -320,6 +320,8 @@ jobs:
           files: assets/*
           tag_name: ${{ needs.meta.outputs.tag }}
           body: |
+            > 一般情况请下载无后缀版本（类似 Maa 的图像页面） | 后缀 `PiCLI` = 命令行版
+
             ${{ needs.changelog.outputs.release_body }}
 
             **Full Changelog**: ${{ github.server_url }}/${{ github.repository }}/compare/${{ needs.meta.outputs.previous_tag }}...${{ needs.meta.outputs.tag }}
