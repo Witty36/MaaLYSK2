@@ -298,20 +298,3 @@ jobs:
 
             [已有 Mirror酱 CDK? 前往Mirror酱高速下载](https://mirrorchyan.com/zh/projects?rid=MaaLYSK&source=MaaLYSK_Github_Release)
           prerelease: ${{ needs.meta.outputs.is_prerelease == 'true' }}
-
-      - name: Trigger MirrorChyanUploading
-        shell: bash
-        run: |
-          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release.yml -f tag=${{ needs.meta.outputs.tag }}
-          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release_note.yml -f tag=${{ needs.meta.outputs.tag }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Trigger Alist Distribution (async)
-        if: needs.meta.outputs.is_release == 'true'
-        shell: bash
-        run: |
-          # 异步触发 Alist 分发，不等待结果
-          gh workflow run alist-distribute.yml --repo ${{ github.repository }} -f tag=${{ needs.meta.outputs.tag }} -f from_install=true
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
