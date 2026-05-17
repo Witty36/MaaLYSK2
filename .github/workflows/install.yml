@@ -227,6 +227,34 @@ jobs:
           name: MaaLYSK-${{ matrix.os }}-${{ matrix.arch }}
           path: "install"
 
+       # ===========================================================================
+      # ✅ PiCLI 版本 (MaaPiCli 命令行前端，仅 Windows)
+      # ===========================================================================
+      - name: Create PiCLI version
+        if: matrix.os == 'win'
+        shell: bash
+        run: |
+          cd tools/
+          python ./ci/install_cli.py ${{ needs.meta.outputs.tag }} ${{ matrix.os }} ${{ matrix.arch }}
+          cd ..
+
+      - name: Rename MaaPiCli to MaaLYSK for PiCLI
+        if: matrix.os == 'win'
+        shell: bash
+        run: |
+          if [ -f "install-cli/MaaPiCli.exe" ]; then
+            mv -f install-cli/MaaPiCli.exe install-cli/MaaLYSK.exe
+            echo "Renamed MaaPiCli.exe to MaaLYSK.exe"
+          else
+            echo "MaaPiCli.exe not found, skipping rename."
+          fi
+
+      - uses: actions/upload-artifact@v4
+        if: matrix.os == 'win'
+        with:
+          name: MaaLYSK-win-${{ matrix.arch }}-PiCLI
+          path: "install-cli"
+ 
   changelog:
     name: Generate changelog
     runs-on: ubuntu-latest
