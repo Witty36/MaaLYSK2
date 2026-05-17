@@ -8,6 +8,10 @@ on:
   push:
     branches: [master]
 
+  # 监听 release 发布（包括在网页上创建 tag 并发布 release）
+  release:
+    types: [published]
+
   # 允许你从 Actions 选项卡手动运行此工作流程
   workflow_dispatch:
 
@@ -54,12 +58,12 @@ jobs:
 
   # 部署工作
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     needs: build
     runs-on: ubuntu-latest
     name: Deploy
+    environment:
+      name: ${{ github.event_name == 'workflow_dispatch' && 'github-pages' || 'release-deployment' }}
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
