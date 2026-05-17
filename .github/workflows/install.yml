@@ -227,11 +227,11 @@ jobs:
           name: MaaLYSK-${{ matrix.os }}-${{ matrix.arch }}
           path: "install"
 
-       # ===========================================================================
+      # ===========================================================================
       # ✅ PiCLI 版本 (MaaPiCli 命令行前端，仅 Windows)
       # ===========================================================================
       - name: Create PiCLI version
-        if: matrix.os == 'win'
+        if: matrix.os == 'win' && matrix.arch == 'x86_64'
         shell: bash
         run: |
           cd tools/
@@ -239,7 +239,7 @@ jobs:
           cd ..
 
       - name: Rename MaaPiCli to MaaLYSK for PiCLI
-        if: matrix.os == 'win'
+        if: matrix.os == 'win' && matrix.arch == 'x86_64'
         shell: bash
         run: |
           if [ -f "install-cli/MaaPiCli.exe" ]; then
@@ -250,11 +250,11 @@ jobs:
           fi
 
       - uses: actions/upload-artifact@v4
-        if: matrix.os == 'win'
+        if: matrix.os == 'win' && matrix.arch == 'x86_64'
         with:
           name: MaaLYSK-win-${{ matrix.arch }}-PiCLI
           path: "install-cli"
- 
+
   changelog:
     name: Generate changelog
     runs-on: ubuntu-latest
@@ -304,7 +304,10 @@ jobs:
       - run: |
           cd assets
           for f in *; do
-            if [[ "$f" == *win* ]]; then
+            if [[ "$f" == *PiCLI* ]]; then
+              base="${f%-PiCLI}"
+              (cd "$f" && zip -r "../${base}-${{ needs.meta.outputs.tag }}-PiCLI.zip" .)
+            elif [[ "$f" == *win* ]]; then
               # Windows 平台使用 zip
               (cd "$f" && zip -r ../$f-${{ needs.meta.outputs.tag }}.zip .)
             else
